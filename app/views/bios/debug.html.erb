@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug - Marriage Biodata</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .debug-info { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    .form-test { background: #e8f5e8; padding: 15px; margin: 10px 0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Debug Page - Marriage Biodata Generator</h1>
+  
+  <div class="debug-info">
+    <h2>Current Bio Records:</h2>
+    <% Bio.all.each do |bio| %>
+      <div>
+        <strong>ID:</strong> <%= bio.id %> | 
+        <strong>Slug:</strong> <%= bio.slug %> | 
+        <strong>Edit Token:</strong> <%= bio.edit_token %> | 
+        <strong>Sections:</strong> <%= bio.sections.count %> | 
+        <strong>Fields:</strong> <%= bio.fields.count %>
+        <br>
+        <a href="/e/<%= bio.edit_token %>" target="_blank">Edit This Bio</a> |
+        <a href="/b/<%= bio.slug %>" target="_blank">View This Bio</a>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="form-test">
+    <h2>Test Form Creation:</h2>
+    <%= form_with model: Bio.new, local: true do |form| %>
+      <%= form.select :language_code, [['English', 'en'], ['Hindi', 'hi']], {}, {class: 'form-control'} %>
+      <%= form.submit "Create Test Bio", class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+  
+  <div class="debug-info">
+    <h2>Default Sections:</h2>
+    <pre><%= Bio.default_sections.to_json %></pre>
+  </div>
+  
+  <div class="debug-info">
+    <h2>Default Fields for Personal Details:</h2>
+    <pre><%= Bio.default_fields_for_section('Personal Details').to_json %></pre>
+  </div>
+  
+  <div class="form-test">
+    <h2>Quick Links:</h2>
+    <a href="/" class="btn">Homepage</a>
+    <% if Bio.first %>
+      <a href="/e/<%= Bio.first.edit_token %>" class="btn">Edit First Bio</a>
+      <a href="/b/<%= Bio.first.slug %>" class="btn">View First Bio</a>
+    <% end %>
+  </div>
+</body>
+</html> 
