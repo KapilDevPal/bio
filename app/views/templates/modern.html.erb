@@ -1,0 +1,41 @@
+<div class="modern-template bg-gradient-to-br from-gray-50 to-white p-8 max-w-4xl mx-auto rounded-2xl shadow-lg">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <div class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full mb-4">
+      <h1 class="text-3xl font-light">Marriage Biodata</h1>
+    </div>
+    <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-gray-400 to-transparent mx-auto"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="space-y-10">
+    <% bio.sections.ordered.each do |section| %>
+      <div class="section bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h2 class="text-xl font-medium text-gray-800 mb-6 flex items-center">
+          <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+          <%= bio.get_localized_label(section.name) %>
+        </h2>
+        
+        <div class="space-y-4">
+          <% section.fields.ordered.each do |field| %>
+            <% if field.value.present? %>
+              <div class="field-item bg-gray-50 rounded-lg p-4">
+                <div class="text-sm font-medium text-gray-600 mb-1 uppercase tracking-wide">
+                  <%= bio.get_localized_label(field.label) %>
+                </div>
+                <div class="text-gray-900 font-light">
+                  <%= field.value %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Footer -->
+  <div class="text-center mt-12 pt-8 border-t border-gray-200">
+    <p class="text-gray-500 text-sm font-light">Generated on <%= Date.current.strftime("%B %d, %Y") %></p>
+  </div>
+</div> 

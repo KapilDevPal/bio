@@ -1,24 +1,24 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["preview", "form", "languageSelector"]
+  static targets = ["form", "templatePreview", "languageSelector"]
   static values = { 
     editToken: String,
     updateUrl: String
   }
 
   connect() {
-    console.log("Bio form controller connected")
     this.setupEventListeners()
   }
 
   setupEventListeners() {
-    // Auto-save on input changes
-    this.element.addEventListener('input', this.debounce(() => {
-      this.updatePreview()
-    }, 1000))
-
-    // Language selector change
+    // Debounced input listener for auto-save
+    const debouncedUpdate = this.debounce(() => this.updateTemplate(), 1000)
+    
+    // Listen for input changes in the form
+    this.formTarget.addEventListener('input', debouncedUpdate)
+    
+    // Listen for language changes
     if (this.hasLanguageSelectorTarget) {
       this.languageSelectorTarget.addEventListener('change', (e) => {
         this.updateLanguage(e.target.value)
@@ -26,92 +26,132 @@ export default class extends Controller {
     }
   }
 
-  updatePreview() {
+  selectTemplate(event) {
+    const templateId = event.currentTarget.dataset.templateId
+    console.log('Selected template:', templateId)
+    
+    // Update hidden field
+    const templateField = this.formTarget.querySelector('#bio_template')
+    if (templateField) {
+      templateField.value = templateId
+    }
+    
+    // Update visual selection
+    document.querySelectorAll('.template-option').forEach(option => {
+      option.classList.remove('border-blue-500', 'bg-blue-50')
+      option.classList.add('border-gray-200', 'hover:border-gray-300')
+    })
+    
+    event.currentTarget.classList.remove('border-gray-200', 'hover:border-gray-300')
+    event.currentTarget.classList.add('border-blue-500', 'bg-blue-50')
+    
+    // Update preview
+    this.updateTemplate()
+    
+    // Show notification
+    this.showNotification(`Template changed to ${this.getTemplateName(templateId)}`, 'success')
+  }
+
+  updateTemplate() {
+    if (!this.hasFormTarget || !this.hasTemplatePreviewTarget) return
+
     const formData = new FormData(this.formTarget)
+    
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+    
+    const headers = {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Accept': 'text/plain'
+    }
+    
+    // Add CSRF token if available
+    if (csrfToken) {
+      headers['X-CSRF-Token'] = csrfToken
+    }
     
     fetch(this.updateUrlValue, {
       method: 'PATCH',
       body: formData,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Accept': 'text/html'
-      }
+      headers: headers
     })
-    .then(response => response.text())
-    .then(html => {
-      if (this.hasPreviewTarget) {
-        this.previewTarget.innerHTML = html
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
+      return response.text()
+    })
+    .then(html => {
+      this.templatePreviewTarget.innerHTML = html
+      this.showNotification('Template updated successfully!', 'success')
     })
     .catch(error => {
-      console.error('Error updating preview:', error)
+      console.error('Error updating template:', error)
+      this.showNotification('Failed to update template', 'error')
     })
   }
 
   updateLanguage(languageCode) {
+    console.log('Updating language to:', languageCode)
+    
     // Update hidden field
     const languageField = this.formTarget.querySelector('#bio_language_code')
     if (languageField) {
       languageField.value = languageCode
     }
     
-    // Update preview
-    this.updatePreview()
-  }
-
-  addField(event) {
-    const button = event.currentTarget
-    const section = button.closest('.section-container')
-    const fieldsContainer = section.querySelector('.fields-container')
-    const fieldIndex = fieldsContainer.children.length
-    const sectionIndex = Array.from(document.querySelectorAll('.section-container')).indexOf(section)
+    // Update template immediately
+    this.updateTemplate()
     
-    const fieldHtml = `
-      <div class="field-container flex items-center space-x-3" data-field-id="new-${fieldIndex}">
-        <div class="flex-1">
-          <input type="text" name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][label]" 
-                 class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                 placeholder="Field Label">
-        </div>
-        <div class="flex-1">
-          <textarea name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][value]" 
-                    rows="1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                    placeholder="Field Value"></textarea>
-        </div>
-        <button type="button" data-action="click->bio-form#removeField" class="text-red-600 hover:text-red-800">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    `
-    
-    fieldsContainer.insertAdjacentHTML('beforeend', fieldHtml)
+    // Show notification
+    this.showNotification(`Language changed to ${this.getLanguageName(languageCode)}`, 'success')
   }
 
-  removeField(event) {
-    const button = event.currentTarget
-    const field = button.closest('.field-container')
-    field.remove()
-    this.updatePreview()
+  getLanguageName(code) {
+    const languages = {
+      'en': 'English',
+      'hi': 'हिंदी (Hindi)',
+      'pa': 'ਪੰਜਾਬੀ (Punjabi)',
+      'mr': 'मराठी (Marathi)',
+      'te': 'తెలుగు (Telugu)',
+      'ta': 'தமிழ் (Tamil)'
+    }
+    return languages[code] || code
   }
 
-  addSection(event) {
+  getTemplateName(templateId) {
+    const templates = {
+      'classic': 'Classic Traditional',
+      'modern': 'Modern Minimalist',
+      'elegant': 'Elegant Premium',
+      'floral': 'Floral Romantic',
+      'minimal': 'Minimal Clean',
+      'corporate': 'Corporate Professional',
+      'romantic': 'Romantic Hearts',
+      'vintage': 'Vintage Classic',
+      'artistic': 'Artistic Creative',
+      'professional': 'Professional Clean'
+    }
+    return templates[templateId] || templateId
+  }
+
+  addSection() {
     const container = document.getElementById('sections-container')
     const sectionIndex = container.children.length
     
     const sectionHtml = `
-      <div class="section-container border border-gray-200 rounded-lg p-4" data-section-id="new-${sectionIndex}">
+      <div class="section-container bg-gray-50 rounded-lg p-4 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-medium text-gray-900">
             <input type="text" name="bio[sections_attributes][${sectionIndex}][name]" 
-                   class="font-medium text-gray-900 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-pink-500 rounded px-2 py-1"
-                   placeholder="Section Name" value="New Section">
+                   class="font-medium text-gray-900 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
+                   placeholder="Section Name" value="New Section" required>
+            <input type="hidden" name="bio[sections_attributes][${sectionIndex}][position]" value="${sectionIndex + 1}">
           </h3>
-          <div class="flex items-center space-x-2">
-            <button type="button" data-action="click->bio-form#addField" class="text-green-600 hover:text-green-800">
-              <i class="fas fa-plus"></i>
-            </button>
-            <button type="button" data-action="click->bio-form#removeSection" class="text-red-600 hover:text-red-800">
-              <i class="fas fa-trash"></i>
+          <div class="flex space-x-2">
+            <button type="button" data-action="click->bio-form#addField" 
+                    class="text-green-600 hover:text-green-800 p-1 rounded">
+              <i class="fas fa-plus text-sm"></i>
             </button>
           </div>
         </div>
@@ -121,57 +161,93 @@ export default class extends Controller {
     `
     
     container.insertAdjacentHTML('beforeend', sectionHtml)
+    this.showNotification('New section added!', 'success')
   }
 
-  removeSection(event) {
-    const button = event.currentTarget
-    const section = button.closest('.section-container')
-    section.remove()
-    this.updatePreview()
-  }
-
-  downloadPDF() {
-    const url = `/bios/${this.editTokenValue}/download_pdf.pdf`
-    window.open(url, '_blank')
-  }
-
-  showQRCode() {
-    const editUrl = `${window.location.origin}/e/${this.editTokenValue}`
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(editUrl)}`
+  addField(event) {
+    const section = event.target.closest('.section-container')
+    const fieldsContainer = section.querySelector('.fields-container')
+    const fieldIndex = fieldsContainer.children.length
+    const sectionIndex = Array.from(document.querySelectorAll('.section-container')).indexOf(section)
     
-    // Create modal
-    const modal = document.createElement('div')
-    modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center'
-    modal.innerHTML = `
-      <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-        <div class="text-center">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">QR Code for Editing</h3>
-          <img src="${qrUrl}" alt="QR Code" class="mx-auto mb-4">
-          <p class="text-sm text-gray-600 mb-4">Scan this QR code to edit your biodata later</p>
-          <button onclick="this.closest('.fixed').remove()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
-            Close
-          </button>
+    const fieldHtml = `
+      <div class="field-container flex items-start space-x-3 p-3 bg-white rounded-lg border border-gray-200">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Field Name</label>
+          <input type="text" name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][label]" 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 placeholder="Enter field name" value="New Field" required>
+          <input type="hidden" name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][position]" value="${fieldIndex + 1}">
         </div>
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Your Answer</label>
+          <textarea name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][value]" 
+                    rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    placeholder="Enter your details"></textarea>
+        </div>
+        <button type="button" data-action="click->bio-form#removeField" 
+                class="text-red-500 hover:text-red-700 p-1 rounded self-start mt-6">
+          <i class="fas fa-trash text-sm"></i>
+        </button>
       </div>
     `
     
-    document.body.appendChild(modal)
-    
-    // Close on outside click
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.remove()
-      }
-    })
+    fieldsContainer.insertAdjacentHTML('beforeend', fieldHtml)
+    this.showNotification('New field added!', 'success')
+  }
+
+  removeField(event) {
+    event.target.closest('.field-container').remove()
+    this.showNotification('Field removed!', 'info')
+  }
+
+  downloadPDF() {
+    const editToken = this.editTokenValue
+    if (editToken) {
+      window.open(`/e/${editToken}/download_pdf`, '_blank')
+      this.showNotification('PDF download started!', 'success')
+    } else {
+      this.showNotification('Unable to download PDF', 'error')
+    }
+  }
+
+  downloadImage() {
+    const editToken = this.editTokenValue
+    if (editToken) {
+      window.open(`/e/${editToken}/download_image`, '_blank')
+      this.showNotification('Image download started!', 'success')
+    } else {
+      this.showNotification('Unable to download image', 'error')
+    }
+  }
+
+  showQRCode() {
+    const editToken = this.editTokenValue
+    if (editToken) {
+      window.open(`/e/${editToken}/qr_code`, '_blank')
+      this.showNotification('QR Code opened!', 'success')
+    } else {
+      this.showNotification('Unable to show QR code', 'error')
+    }
   }
 
   copyShareLink() {
-    const publicUrl = `${window.location.origin}/b/${this.editTokenValue}`
-    navigator.clipboard.writeText(publicUrl).then(() => {
-      this.showNotification('Public link copied to clipboard!', 'success')
-    }).catch(() => {
-      this.showNotification('Failed to copy link', 'error')
-    })
+    const editToken = this.editTokenValue
+    if (editToken) {
+      fetch(`/e/${editToken}/share_link`)
+        .then(response => response.json())
+        .then(data => {
+          navigator.clipboard.writeText(data.public_url).then(() => {
+            this.showNotification('Share link copied to clipboard!', 'success')
+          })
+        })
+        .catch(error => {
+          console.error('Error getting share link:', error)
+          this.showNotification('Unable to copy share link', 'error')
+        })
+    } else {
+      this.showNotification('Unable to copy share link', 'error')
+    }
   }
 
   resetForm() {
@@ -180,18 +256,45 @@ export default class extends Controller {
     }
   }
 
+  getBioId() {
+    // Extract bio ID from the edit token or URL
+    const urlParts = window.location.pathname.split('/')
+    const editTokenIndex = urlParts.indexOf('e')
+    if (editTokenIndex !== -1 && urlParts[editTokenIndex + 1]) {
+      return urlParts[editTokenIndex + 1]
+    }
+    return null
+  }
+
   showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification')
+    existingNotifications.forEach(notification => notification.remove())
+    
+    const colors = {
+      success: 'bg-green-500',
+      error: 'bg-red-500',
+      info: 'bg-blue-500',
+      warning: 'bg-yellow-500'
+    }
+    
     const notification = document.createElement('div')
-    notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${
-      type === 'success' ? 'bg-green-500' : 
-      type === 'error' ? 'bg-red-500' : 'bg-blue-500'
-    }`
+    notification.className = `notification fixed top-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300 translate-x-full`
     notification.textContent = message
     
     document.body.appendChild(notification)
     
+    // Animate in
     setTimeout(() => {
-      notification.remove()
+      notification.classList.remove('translate-x-full')
+    }, 100)
+    
+    // Animate out and remove
+    setTimeout(() => {
+      notification.classList.add('translate-x-full')
+      setTimeout(() => {
+        notification.remove()
+      }, 300)
     }, 3000)
   }
 

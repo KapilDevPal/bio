@@ -1,0 +1,38 @@
+<div class="classic-template bg-white border-2 border-gray-800 p-8 max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="text-center border-b-4 border-gray-800 pb-6 mb-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-2">Marriage Biodata</h1>
+    <div class="w-24 h-1 bg-gray-800 mx-auto"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="space-y-8">
+    <% bio.sections.ordered.each do |section| %>
+      <div class="section">
+        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-gray-600 pb-2 mb-4">
+          <%= bio.get_localized_label(section.name) %>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <% section.fields.ordered.each do |field| %>
+            <% if field.value.present? %>
+              <div class="field-item">
+                <div class="font-semibold text-gray-700 text-lg mb-1">
+                  <%= bio.get_localized_label(field.label) %>:
+                </div>
+                <div class="text-gray-900 text-base pl-4 border-l-4 border-gray-300">
+                  <%= field.value %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Footer -->
+  <div class="text-center mt-12 pt-6 border-t-2 border-gray-800">
+    <p class="text-gray-600 text-sm">Generated on <%= Date.current.strftime("%B %d, %Y") %></p>
+  </div>
+</div> 

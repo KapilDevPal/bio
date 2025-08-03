@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_03_043417) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_03_143017) do
   create_table "bios", force: :cascade do |t|
     t.string "slug"
     t.string "edit_token"
     t.string "language_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "template"
     t.index ["language_code"], name: "index_bios_on_language_code"
   end
 

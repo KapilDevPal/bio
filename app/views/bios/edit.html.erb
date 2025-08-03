@@ -1,295 +1,213 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <!-- Header -->
-  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900 font-playfair">
-        <i class="fas fa-edit text-pink-500 mr-3"></i>
-        Edit Your Biodata
-      </h1>
-      <p class="text-gray-600 mt-2">Customize your marriage biodata and see live preview</p>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+  <!-- Simple Header -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg mr-3">
+            <i class="fas fa-heart text-white text-xl"></i>
     </div>
-    
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap gap-3 mt-4 lg:mt-0">
-      <a href="<%= download_pdf_bio_path(@bio, format: :pdf) %>" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
-        <i class="fas fa-download mr-2"></i>
-        Download PDF
-      </a>
-      <button onclick="showQRCode()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
-        <i class="fas fa-qrcode mr-2"></i>
-        QR Code
-      </button>
-      <button onclick="copyShareLink()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors">
-        <i class="fas fa-share mr-2"></i>
-        Share Link
-      </button>
-      <button onclick="resetForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
-        <i class="fas fa-undo mr-2"></i>
-        Reset
-      </button>
-    </div>
+          <h1 class="text-2xl font-bold text-gray-900">Edit Your Biodata</h1>
   </div>
 
   <!-- Language Selector -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center">
-        <i class="fas fa-language text-gray-500 mr-3"></i>
+        <div class="flex items-center space-x-4">
         <label class="text-sm font-medium text-gray-700">Language:</label>
+          <select data-bio-form-target="languageSelector" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="en" <%= 'selected' if @bio.language_code == 'en' %>>🇺🇸 English</option>
+            <option value="hi" <%= 'selected' if @bio.language_code == 'hi' %>>🇮🇳 हिंदी</option>
+            <option value="pa" <%= 'selected' if @bio.language_code == 'pa' %>>🇮🇳 ਪੰਜਾਬੀ</option>
+            <option value="mr" <%= 'selected' if @bio.language_code == 'mr' %>>🇮🇳 मराठी</option>
+            <option value="te" <%= 'selected' if @bio.language_code == 'te' %>>🇮🇳 తెలుగు</option>
+            <option value="ta" <%= 'selected' if @bio.language_code == 'ta' %>>🇮🇳 தமிழ்</option>
+          </select>
+        </div>
       </div>
-      <select id="language-selector" class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
-        <option value="en" <%= 'selected' if @bio.language_code == 'en' %>>English</option>
-        <option value="hi" <%= 'selected' if @bio.language_code == 'hi' %>>हिंदी (Hindi)</option>
-        <option value="pa" <%= 'selected' if @bio.language_code == 'pa' %>>ਪੰਜਾਬੀ (Punjabi)</option>
-        <option value="mr" <%= 'selected' if @bio.language_code == 'mr' %>>मराठी (Marathi)</option>
-        <option value="te" <%= 'selected' if @bio.language_code == 'te' %>>తెలుగు (Telugu)</option>
-        <option value="ta" <%= 'selected' if @bio.language_code == 'ta' %>>தமிழ் (Tamil)</option>
-      </select>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Form Section -->
-    <div class="space-y-6">
-      <%= form_with model: @bio, local: true do |form| %>
-        <%= form.hidden_field :language_code, id: "bio_language_code" %>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <%= form_with model: @bio, url: update_bio_path(@bio.edit_token), 
+                  data: { controller: "bio-form", 
+                          bio_form_edit_token_value: @bio.edit_token,
+                          bio_form_update_url_value: update_bio_path(@bio.edit_token),
+                          bio_form_target: "form" } do |form| %>
+    
+      <%= form.hidden_field :template %>
+      <%= form.hidden_field :language_code %>
+      
+      <!-- Template Selection Section -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-palette text-purple-500 mr-3"></i>
+          Choose Your Template
+        </h2>
         
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div class="px-6 py-4 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900">
-              <i class="fas fa-edit text-blue-500 mr-2"></i>
-              Biodata Form
-            </h2>
-          </div>
-          
-          <div class="p-6">
-            <div id="sections-container" class="space-y-6">
-              <% @bio.sections.each do |section| %>
-                <div class="section-container border border-gray-200 rounded-lg p-4" data-section-id="<%= section.id %>" style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-                  <div class="flex items-center justify-between mb-4" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-                    <h3 class="text-lg font-medium text-gray-900" style="font-size: 18px; font-weight: 500; color: #111827;">
-                      <%= section.name %>
-                    </h3>
-                    <div class="flex items-center space-x-2" style="display: flex; align-items: center; gap: 8px;">
-                      <button type="button" onclick="addField(this)" class="text-green-600 hover:text-green-800" style="color: #059669; cursor: pointer;">
-                        <i class="fas fa-plus"></i>
-                      </button>
-                      <button type="button" onclick="removeSection(this)" class="text-red-600 hover:text-red-800" style="color: #dc2626; cursor: pointer;">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div class="fields-container space-y-3" style="display: flex; flex-direction: column; gap: 12px;">
-                    <% section.fields.each do |field| %>
-                      <div class="field-container flex items-center space-x-3" data-field-id="<%= field.id %>" style="display: flex; align-items: center; gap: 12px; padding: 8px; border: 1px solid #f3f4f6; border-radius: 6px; background-color: #f9fafb;">
-                        <div class="flex-1" style="flex: 1;">
-                          <input type="text" name="bio[sections_attributes][<%= section.id %>][fields_attributes][<%= field.id %>][label]" 
-                                 value="<%= field.label %>"
-                                 class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                                 placeholder="Field Label"
-                                 style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background-color: white;">
-                        </div>
-                        <div class="flex-1" style="flex: 1;">
-                          <textarea name="bio[sections_attributes][<%= section.id %>][fields_attributes][<%= field.id %>][value]" 
-                                    rows="1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                                    placeholder="Field Value"
-                                    style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background-color: white; resize: vertical;"><%= field.value %></textarea>
-                        </div>
-                        <button type="button" onclick="removeField(this)" class="text-red-600 hover:text-red-800" style="color: #dc2626; cursor: pointer; padding: 4px;">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
-                    <% end %>
-                  </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <% Bio.available_templates.each do |template| %>
+            <div class="template-option cursor-pointer border-2 rounded-lg p-4 transition-all duration-200 hover:shadow-md <%= 'border-blue-500 bg-blue-50' if @bio.template == template[:id] %> <%= 'border-gray-200 hover:border-gray-300' if @bio.template != template[:id] %>"
+                 data-template-id="<%= template[:id] %>"
+                 data-action="click->bio-form#selectTemplate">
+              <div class="flex items-center mb-2">
+                <div class="w-4 h-4 rounded-full <%= template[:color] %> mr-3"></div>
+                <h3 class="font-medium text-gray-900 text-sm"><%= template[:name] %></h3>
+              </div>
+              <p class="text-xs text-gray-600"><%= template[:description] %></p>
+              <% if @bio.template == template[:id] %>
+                <div class="mt-2 text-blue-600 text-xs font-medium">
+                  <i class="fas fa-check mr-1"></i>Selected
                 </div>
               <% end %>
             </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Form Section -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+              <i class="fas fa-edit text-blue-500 mr-3"></i>
+              Fill Your Details
+            </h2>
             
-            <div class="mt-6" style="margin-top: 24px;">
-              <button type="button" onclick="addSection()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg transition-colors" style="width: 100%; background-color: #f3f4f6; color: #374151; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer;">
+            <!-- Language Selector -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Language:</label>
+              <select data-bio-form-target="languageSelector" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="en" <%= 'selected' if @bio.language_code == 'en' %>>🇺🇸 English</option>
+                <option value="hi" <%= 'selected' if @bio.language_code == 'hi' %>>🇮🇳 हिंदी</option>
+                <option value="pa" <%= 'selected' if @bio.language_code == 'pa' %>>🇮🇳 ਪੰਜਾਬੀ</option>
+                <option value="mr" <%= 'selected' if @bio.language_code == 'mr' %>>🇮🇳 मराठी</option>
+                <option value="te" <%= 'selected' if @bio.language_code == 'te' %>>🇮🇳 తెలుగు</option>
+                <option value="ta" <%= 'selected' if @bio.language_code == 'ta' %>>🇮🇳 தமிழ்</option>
+              </select>
+            </div>
+            
+            <!-- Sections -->
+            <div id="sections-container" class="space-y-6">
+              <% @bio.sections.ordered.each_with_index do |section, section_index| %>
+                <%= form.fields_for :sections_attributes, section do |section_form| %>
+                  <%= section_form.hidden_field :id %>
+                  <%= section_form.hidden_field :name %>
+                  <%= section_form.hidden_field :position %>
+                  
+                  <div class="section-container bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                      <h3 class="text-lg font-medium text-gray-900">
+                        <%= section.name %>
+                      </h3>
+                      <div class="flex space-x-2">
+                        <button type="button" data-action="click->bio-form#addField" 
+                                class="text-green-600 hover:text-green-800 p-1 rounded">
+                          <i class="fas fa-plus text-sm"></i>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div class="fields-container space-y-3">
+                      <% section.fields.ordered.each_with_index do |field, field_index| %>
+                        <%= section_form.fields_for :fields_attributes, field do |field_form| %>
+                          <%= field_form.hidden_field :id if field.persisted? %>
+                          <%= field_form.hidden_field :position %>
+                          
+                          <div class="field-container flex items-start space-x-3 p-3 bg-white rounded-lg border border-gray-200">
+                            <div class="flex-1">
+                              <label class="block text-sm font-medium text-gray-700 mb-1">Field Name</label>
+                              <%= field_form.text_field :label, 
+                                  class: "w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                  placeholder: "Enter field name",
+                                  required: true %>
+                            </div>
+                            <div class="flex-1">
+                              <label class="block text-sm font-medium text-gray-700 mb-1">Your Answer</label>
+                              <%= field_form.text_area :value, rows: 2,
+                                  class: "w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none",
+                                  placeholder: "Enter your details" %>
+                            </div>
+                            <button type="button" data-action="click->bio-form#removeField" 
+                                    class="text-red-500 hover:text-red-700 p-1 rounded self-start mt-6">
+                              <i class="fas fa-trash text-sm"></i>
+                            </button>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+            
+            <!-- Add Section Button -->
+            <div class="mt-6">
+              <button type="button" data-action="click->bio-form#addSection" 
+                      class="w-full py-3 px-4 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors">
                 <i class="fas fa-plus mr-2"></i>
                 Add New Section
               </button>
             </div>
           </div>
         </div>
-        
-        <div class="flex justify-end space-x-4 mt-6" style="display: flex; justify-content: flex-end; gap: 16px; margin-top: 24px;">
-          <%= form.submit "Save Changes", 
-              class: "bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors",
-              style: "background-color: #ec4899; color: white; font-weight: 600; padding: 8px 24px; border-radius: 8px; border: none; cursor: pointer;" %>
-        </div>
-      <% end %>
-    </div>
 
-    <!-- Preview Section -->
-    <div class="space-y-6">
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200" style="background-color: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;">
-        <div class="px-6 py-4 border-b border-gray-200" style="padding: 16px 24px; border-bottom: 1px solid #e5e7eb;">
-          <h2 class="text-lg font-semibold text-gray-900" style="font-size: 18px; font-weight: 600; color: #111827;">
-            <i class="fas fa-eye text-green-500 mr-2"></i>
-            Live Preview
-          </h2>
-        </div>
-        
-        <div class="p-6" style="padding: 24px;">
-          <div id="preview" class="min-h-[600px]" style="min-height: 600px;">
-            <%= render 'preview', bio: @bio %>
+        <!-- Template Preview Section -->
+        <div class="space-y-6">
+          <!-- Template Preview -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <i class="fas fa-eye text-green-500 mr-3"></i>
+              Template Preview
+            </h3>
+            
+            <div id="template-preview" data-bio-form-target="templatePreview" class="border border-gray-200 rounded-lg p-4 bg-gray-50 min-h-[400px]">
+              <%= render "templates/#{@bio.template}", bio: @bio %>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <i class="fas fa-download text-green-500 mr-3"></i>
+              Download & Share
+            </h3>
+            
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" data-action="click->bio-form#downloadPDF" 
+                      class="flex items-center justify-center px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                <i class="fas fa-file-pdf mr-2"></i>
+                PDF
+              </button>
+              
+              <button type="button" data-action="click->bio-form#downloadImage" 
+                      class="flex items-center justify-center px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                <i class="fas fa-image mr-2"></i>
+                Image
+              </button>
+              
+              <button type="button" data-action="click->bio-form#showQRCode" 
+                      class="flex items-center justify-center px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors">
+                <i class="fas fa-qrcode mr-2"></i>
+                QR Code
+              </button>
+              
+              <button type="button" data-action="click->bio-form#copyShareLink" 
+                      class="flex items-center justify-center px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
+                <i class="fas fa-share mr-2"></i>
+                Share Link
+              </button>
+            </div>
+            
+            <div class="mt-4">
+              <button type="button" data-action="click->bio-form#resetForm" 
+                      class="w-full px-4 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
+                <i class="fas fa-undo mr-2"></i>
+                Reset Form
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>
-
-<!-- QR Code Modal -->
-<div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); display: none; z-index: 50;">
-  <div class="flex items-center justify-center min-h-screen p-4" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px;">
-    <div class="bg-white rounded-lg p-6 max-w-sm w-full" style="background-color: white; border-radius: 8px; padding: 24px; max-width: 400px; width: 100%;">
-      <div class="text-center">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4" style="font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 16px;">QR Code for Editing</h3>
-        <div id="qr-code-container" class="mb-4" style="margin-bottom: 16px;"></div>
-        <p class="text-sm text-gray-600 mb-4" style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Scan this QR code to edit your biodata later</p>
-        <button onclick="closeQRModal()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors" style="background-color: #6b7280; color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer;">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Language selector
-  document.getElementById('language-selector').addEventListener('change', function() {
-    document.getElementById('bio_language_code').value = this.value;
-    updatePreview();
-  });
-
-  // Add section
-  function addSection() {
-    const container = document.getElementById('sections-container');
-    const sectionIndex = container.children.length;
-    
-    const sectionHtml = `
-      <div class="section-container border border-gray-200 rounded-lg p-4" data-section-id="new-${sectionIndex}" style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-        <div class="flex items-center justify-between mb-4" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-          <h3 class="text-lg font-medium text-gray-900" style="font-size: 18px; font-weight: 500; color: #111827;">
-            <input type="text" name="bio[sections_attributes][${sectionIndex}][name]" 
-                   class="font-medium text-gray-900 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-pink-500 rounded px-2 py-1"
-                   placeholder="Section Name" value="New Section" style="font-weight: 500; color: #111827; background: transparent; border: none; padding: 4px 8px; border-radius: 4px;">
-          </h3>
-          <div class="flex items-center space-x-2" style="display: flex; align-items: center; gap: 8px;">
-            <button type="button" onclick="addField(this)" class="text-green-600 hover:text-green-800" style="color: #059669; cursor: pointer;">
-              <i class="fas fa-plus"></i>
-            </button>
-            <button type="button" onclick="removeSection(this)" class="text-red-600 hover:text-red-800" style="color: #dc2626; cursor: pointer;">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        </div>
-        <div class="fields-container space-y-3" style="display: flex; flex-direction: column; gap: 12px;">
-        </div>
-      </div>
-    `;
-    
-    container.insertAdjacentHTML('beforeend', sectionHtml);
-  }
-
-  // Add field
-  function addField(button) {
-    const section = button.closest('.section-container');
-    const fieldsContainer = section.querySelector('.fields-container');
-    const fieldIndex = fieldsContainer.children.length;
-    const sectionIndex = Array.from(document.querySelectorAll('.section-container')).indexOf(section);
-    
-    const fieldHtml = `
-      <div class="field-container flex items-center space-x-3" data-field-id="new-${fieldIndex}" style="display: flex; align-items: center; gap: 12px; padding: 8px; border: 1px solid #f3f4f6; border-radius: 6px; background-color: #f9fafb;">
-        <div class="flex-1" style="flex: 1;">
-          <input type="text" name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][label]" 
-                 class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                 placeholder="Field Label" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background-color: white;">
-        </div>
-        <div class="flex-1" style="flex: 1;">
-          <textarea name="bio[sections_attributes][${sectionIndex}][fields_attributes][${fieldIndex}][value]" 
-                    rows="1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                    placeholder="Field Value" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background-color: white; resize: vertical;"></textarea>
-        </div>
-        <button type="button" onclick="removeField(this)" class="text-red-600 hover:text-red-800" style="color: #dc2626; cursor: pointer; padding: 4px;">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    `;
-    
-    fieldsContainer.insertAdjacentHTML('beforeend', fieldHtml);
-  }
-
-  // Remove section
-  function removeSection(button) {
-    const section = button.closest('.section-container');
-    section.remove();
-  }
-
-  // Remove field
-  function removeField(button) {
-    const field = button.closest('.field-container');
-    field.remove();
-  }
-
-  // Show QR Code
-  function showQRCode() {
-    const modal = document.getElementById('qr-modal');
-    const container = document.getElementById('qr-code-container');
-    
-    // Generate QR code using a library or API
-    const editUrl = '<%= @bio.edit_url %>';
-    container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(editUrl)}" alt="QR Code">`;
-    
-    modal.style.display = 'flex';
-  }
-
-  // Close QR Modal
-  function closeQRModal() {
-    document.getElementById('qr-modal').style.display = 'none';
-  }
-
-  // Copy share link
-  function copyShareLink() {
-    const publicUrl = '<%= @bio.public_url %>';
-    navigator.clipboard.writeText(publicUrl).then(() => {
-      alert('Public link copied to clipboard!');
-    });
-  }
-
-  // Reset form
-  function resetForm() {
-    if (confirm('Are you sure you want to reset the form? This will clear all your changes.')) {
-      location.reload();
-    }
-  }
-
-  // Update preview
-  function updatePreview() {
-    const form = document.querySelector('form');
-    const formData = new FormData(form);
-    
-    fetch('<%= edit_bio_path(@bio.edit_token) %>', {
-      method: 'PATCH',
-      body: formData,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    })
-    .then(response => response.text())
-    .then(html => {
-      document.getElementById('preview').innerHTML = html;
-    });
-  }
-
-  // Auto-save on input change
-  document.addEventListener('input', function(e) {
-    if (e.target.matches('input, textarea, select')) {
-      setTimeout(updatePreview, 1000);
-    }
-  });
-</script>

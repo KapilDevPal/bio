@@ -1,0 +1,41 @@
+<div class="elegant-template bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-8 max-w-4xl mx-auto rounded-3xl shadow-2xl">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <div class="inline-block bg-gradient-to-r from-purple-400 to-pink-400 text-white px-12 py-6 rounded-full mb-6 shadow-lg">
+      <h1 class="text-4xl font-serif">Marriage Biodata</h1>
+    </div>
+    <div class="w-40 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="space-y-10">
+    <% bio.sections.ordered.each do |section| %>
+      <div class="section bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+        <h2 class="text-2xl font-serif text-purple-200 mb-8 flex items-center">
+          <div class="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mr-4"></div>
+          <%= bio.get_localized_label(section.name) %>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <% section.fields.ordered.each do |field| %>
+            <% if field.value.present? %>
+              <div class="field-item bg-white/5 rounded-xl p-6 border border-white/10">
+                <div class="text-sm font-medium text-purple-200 mb-2 uppercase tracking-wider">
+                  <%= bio.get_localized_label(field.label) %>
+                </div>
+                <div class="text-white text-lg font-light">
+                  <%= field.value %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Footer -->
+  <div class="text-center mt-16 pt-8 border-t border-white/20">
+    <p class="text-purple-200 text-sm font-light">Generated on <%= Date.current.strftime("%B %d, %Y") %></p>
+  </div>
+</div> 

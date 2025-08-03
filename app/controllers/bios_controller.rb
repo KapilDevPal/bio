@@ -1,10 +1,11 @@
 class BiosController < ApplicationController
-  before_action :set_bio, only: [:show, :destroy, :download_pdf, :qr_code, :share_link]
-  before_action :set_bio_by_edit_token, only: [:edit, :update]
+  before_action :set_bio, only: [:show, :destroy]
+  before_action :set_bio_by_edit_token, only: [:edit, :update, :download_pdf, :download_image, :qr_code, :share_link]
   before_action :set_bio_by_slug, only: [:show]
+  skip_before_action :verify_authenticity_token, only: [:update], if: -> { request.xhr? }
 
   def new
-    @bio = Bio.new(language_code: 'en')
+    @bio = Bio.new(language_code: 'en', template: 'classic')
   end
 
   def debug
@@ -13,6 +14,7 @@ class BiosController < ApplicationController
 
   def create
     @bio = Bio.new(bio_params)
+    @bio.template ||= 'classic'  # Set default template if not provided
     
     if @bio.save
       # Create default sections and fields
@@ -26,7 +28,7 @@ class BiosController < ApplicationController
       # Debug: Check if sections were created
       Rails.logger.info "Created bio with #{@bio.sections.count} sections and #{@bio.fields.count} fields"
       
-      redirect_to edit_bio_path(@bio.edit_token), notice: 'Biodata created successfully! You can now customize it.'
+      redirect_to edit_bio_path(@bio.edit_token), notice: 'Biodata created successfully!'
     else
       Rails.logger.error "Failed to create bio: #{@bio.errors.full_messages}"
       render :new, status: :unprocessable_entity
@@ -35,10 +37,12 @@ class BiosController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
+      format.html { 
+        render "templates/#{@bio.template}", locals: { bio: @bio }
+      }
       format.pdf do
         render pdf: "marriage_biodata_#{@bio.slug}",
-               template: "bios/show",
+               template: "templates/#{@bio.template}",
                layout: "pdf",
                disposition: "attachment"
       end
@@ -58,21 +62,53 @@ class BiosController < ApplicationController
   end
 
   def update
+    # Debug logging
+    Rails.logger.info "Update params: #{params.inspect}"
+    Rails.logger.info "Bio params: #{bio_params.inspect}"
+    
+    # Check if language is being changed
+    language_changed = @bio.language_code != bio_params[:language_code]
+    
     if @bio.update(bio_params)
+      # If language changed, update field labels
+      if language_changed
+        update_field_labels_for_language
+      end
+      
       respond_to do |format|
         format.html { redirect_to edit_bio_path(@bio.edit_token), notice: 'Biodata updated successfully!' }
         format.turbo_stream { 
-          render turbo_stream: turbo_stream.replace("preview", partial: "bios/preview", locals: { bio: @bio })
+          render turbo_stream: turbo_stream.replace("template-preview", partial: "templates/#{@bio.template}", locals: { bio: @bio })
         }
         format.json { render json: { success: true, bio: @bio.as_json(include: { sections: { include: :fields } }) } }
+        format.js { 
+          render json: { success: true, html: render_to_string(partial: "templates/#{@bio.template}", locals: { bio: @bio }) }
+        }
+        format.text { 
+          render plain: render_to_string(partial: "templates/#{@bio.template}", locals: { bio: @bio })
+        }
+        format.all { 
+          # For any other format, return the template HTML
+          render plain: render_to_string(partial: "templates/#{@bio.template}", locals: { bio: @bio })
+        }
       end
     else
+      Rails.logger.error "Update failed: #{@bio.errors.full_messages}"
       respond_to do |format|
         format.html { render :edit, status: :unprocessable_entity }
         format.turbo_stream { 
-          render turbo_stream: turbo_stream.replace("preview", partial: "bios/preview", locals: { bio: @bio })
+          render turbo_stream: turbo_stream.replace("template-preview", partial: "templates/#{@bio.template}", locals: { bio: @bio })
         }
         format.json { render json: { success: false, errors: @bio.errors }, status: :unprocessable_entity }
+        format.js { 
+          render json: { success: false, errors: @bio.errors }, status: :unprocessable_entity
+        }
+        format.text { 
+          render plain: "Error updating template", status: :unprocessable_entity
+        }
+        format.all { 
+          render plain: "Error updating template", status: :unprocessable_entity
+        }
       end
     end
   end
@@ -86,11 +122,23 @@ class BiosController < ApplicationController
     respond_to do |format|
       format.pdf do
         render pdf: "marriage_biodata_#{@bio.slug}",
-               template: "bios/show",
+               template: "templates/#{@bio.template}",
                layout: "pdf",
                disposition: "attachment"
       end
     end
+  end
+
+  def download_image
+    # Generate HTML content for the biodata using selected template
+    html_content = render_to_string(partial: "templates/#{@bio.template}", locals: { bio: @bio })
+    
+    # Use Puppeteer or similar to convert HTML to image
+    # For now, we'll return the HTML with instructions to save as image
+    send_data html_content, 
+              type: 'text/html', 
+              disposition: 'attachment',
+              filename: "biodata_#{@bio.slug}.html"
   end
 
   def qr_code
@@ -127,9 +175,22 @@ class BiosController < ApplicationController
     @bio = Bio.find_by!(slug: params[:slug])
   end
 
+  def update_field_labels_for_language
+    # Update field labels based on the new language
+    @bio.sections.each do |section|
+      section.fields.each do |field|
+        # Only update if the field has a default English label
+        if Bio.default_fields_for_section(section.name).any? { |f| f[:label] == field.label }
+          localized_label = @bio.get_localized_label(field.label)
+          field.update(label: localized_label) if localized_label != field.label
+        end
+      end
+    end
+  end
+
   def bio_params
     params.require(:bio).permit(
-      :language_code,
+      :language_code, :template,
       sections_attributes: [
         :id, :name, :position, :_destroy,
         fields_attributes: [:id, :label, :value, :position, :_destroy]
