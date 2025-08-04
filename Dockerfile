@@ -39,6 +39,15 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
+COPY package.json yarn.lock ./
+RUN yarn install
+RUN yarn build:css
+
+RUN chmod +x /rails/bin/docker-entrypoint
+
+RUN yarn build:css
+
+RUN bundle exec rails assets:precompile
 # Copy application code
 COPY . .
 
