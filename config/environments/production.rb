@@ -80,6 +80,8 @@ Rails.application.configure do
 
   # Allow requests from our domain
   config.hosts << "test.veerexa.com"
+  config.hosts << /^[a-f0-9]{12}$/  # Allow Docker container IDs (12 character hex)
+  config.hosts << /^[a-f0-9]{12}:\d+$/
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
