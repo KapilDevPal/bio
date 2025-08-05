@@ -1,0 +1,29 @@
+{
+  "name": "bio_test_app",
+  "version": "1.0.0",
+  "description": "A beautiful, responsive web application for creating, customizing, and downloading marriage biodata without requiring user accounts. Built with Ruby on Rails 8, Hotwire, and TailwindCSS.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KapilDevPal/bio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KapilDevPal/bio/issues"
+  },
+  "homepage": "https://github.com/KapilDevPal/bio#readme"
+}

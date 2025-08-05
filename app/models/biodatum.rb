@@ -1,0 +1,2 @@
+class Biodatum < ApplicationRecord
+end

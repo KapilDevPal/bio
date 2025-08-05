@@ -1,0 +1,77 @@
+<div class="header">
+  <% if @biodata["photo"].present? %>
+    <div class="photo-container">
+      <img src="<%= @biodata["photo"] %>" class="photo" alt="Profile Photo">
+    </div>
+  <% end %>
+  <h1>Biodata</h1>
+  <div class="header-line"></div>
+</div>
+
+<% if @biodata["personal"].present? %>
+  <div class="section">
+    <h2 class="section-title">Personal Information</h2>
+    <div class="fields-grid">
+      <% @biodata["personal"].each do |key, value| %>
+        <% if value.present? %>
+          <div class="field-item">
+            <div class="field-label"><%= key.titleize %></div>
+            <div class="field-value"><%= value %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if @biodata["family"].present? %>
+  <div class="section">
+    <h2 class="section-title">Family Information</h2>
+    <div class="fields-grid">
+      <% @biodata["family"].each do |key, value| %>
+        <% if value.present? %>
+          <div class="field-item">
+            <div class="field-label"><%= key.titleize %></div>
+            <div class="field-value"><%= value %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if @biodata["contact"].present? %>
+  <div class="section">
+    <h2 class="section-title">Contact Information</h2>
+    <div class="fields-grid">
+      <% @biodata["contact"].each do |key, value| %>
+        <% if value.present? %>
+          <div class="field-item">
+            <div class="field-label"><%= key.titleize %></div>
+            <div class="field-value"><%= value %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if @biodata["preferences"].present? %>
+  <div class="section">
+    <h2 class="section-title">Partner Preferences</h2>
+    <div class="fields-grid">
+      <% @biodata["preferences"].each do |key, value| %>
+        <% if value.present? %>
+          <div class="field-item">
+            <div class="field-label"><%= key.titleize %></div>
+            <div class="field-value"><%= value %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="footer">
+  <p class="footer-text">Generated on <%= Date.current.strftime("%B %d, %Y") %></p>
+</div> 
