@@ -37180,3 +37180,1504 @@ Processing by BiodataController#index as HTML
 Completed 200 OK in 92ms (Views: 9.1ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 1.0ms)
 
 
+Started GET "/biodata/new" for ::1 at 2025-08-06 08:31:20 +0530
+Processing by BiodataController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering biodata/new.html.erb within layouts/application
+  Rendered biodata/new.html.erb within layouts/application (Duration: 35.1ms | GC: 0.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 36.5ms | GC: 0.4ms)
+Completed 200 OK in 125ms (Views: 37.0ms | ActiveRecord: 1.4ms (0 queries, 0 cached) | GC: 3.4ms)
+
+
+Started POST "/biodata" for ::1 at 2025-08-06 08:31:27 +0530
+Processing by BiodataController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "biodatum"=>{"name"=>"", "background_template"=>"watercolor-1", "description"=>"", "biodata_sections_attributes"=>{"0"=>{"name"=>"Personal Information", "biodata_fields_attributes"=>{"0"=>{"label"=>"Full Name", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Date of Birth", "value"=>"", "field_type"=>"date"}, "2"=>{"label"=>"Age", "value"=>"", "field_type"=>"number"}, "3"=>{"label"=>"Height", "value"=>"", "field_type"=>"text"}, "4"=>{"label"=>"Blood Group", "value"=>"", "field_type"=>"text"}, "5"=>{"label"=>"Religion", "value"=>"", "field_type"=>"text"}, "6"=>{"label"=>"Caste", "value"=>"", "field_type"=>"text"}}}, "1"=>{"name"=>"Family Information", "biodata_fields_attributes"=>{"0"=>{"label"=>"Father's Name", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Mother's Name", "value"=>"", "field_type"=>"text"}, "2"=>{"label"=>"Family Type", "value"=>"", "field_type"=>"text"}, "3"=>{"label"=>"Family Status", "value"=>"", "field_type"=>"text"}}}, "2"=>{"name"=>"Contact Information", "biodata_fields_attributes"=>{"0"=>{"label"=>"Phone Number", "value"=>"", "field_type"=>"phone"}, "1"=>{"label"=>"Email Address", "value"=>"", "field_type"=>"email"}, "2"=>{"label"=>"Address", "value"=>"", "field_type"=>"textarea"}}}, "3"=>{"name"=>"Education & Career", "biodata_fields_attributes"=>{"0"=>{"label"=>"Education", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Occupation", "value"=>"", "field_type"=>"text"}, "2"=>{"label"=>"Company", "value"=>"", "field_type"=>"text"}, "3"=>{"label"=>"Annual Income", "value"=>"", "field_type"=>"text"}, "4"=>{"label"=>"", "value"=>"", "field_type"=>"text"}}}, "4"=>{"name"=>"Partner Preferences", "biodata_fields_attributes"=>{"0"=>{"label"=>"Age Range", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Education Preference", "value"=>"", "field_type"=>"text"}, "2"=>{"label"=>"Location Preference", "value"=>"", "field_type"=>"text"}, "3"=>{"label"=>"Occupation Preference", "value"=>"", "field_type"=>"text"}}}}}, "commit"=>"Create Biodata"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/models/biodatum.rb:93:in `generate_slug'
+  [1m[36mBiodatum Exists? (1.4ms)[0m  [1m[34mSELECT 1 AS one FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/models/biodatum.rb:93:in `generate_slug'
+  [1m[36mBiodatum Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata" ("name", "slug", "photo", "background_template", "description", "is_active", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Untitled Biodata"], ["slug", "untitled-biodata"], ["photo", nil], ["background_template", "watercolor-1"], ["description", ""], ["is_active", 1], ["created_at", "2025-08-06 03:01:27.650696"], ["updated_at", "2025-08-06 03:01:27.650696"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 20], ["name", "Personal Information"], ["position", nil], ["created_at", "2025-08-06 03:01:27.653269"], ["updated_at", "2025-08-06 03:01:27.653269"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Full Name"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.656377"], ["updated_at", "2025-08-06 03:01:27.656377"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Date of Birth"], ["value", ""], ["field_type", "date"], ["position", 0], ["created_at", "2025-08-06 03:01:27.659307"], ["updated_at", "2025-08-06 03:01:27.659307"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Age"], ["value", ""], ["field_type", "number"], ["position", 0], ["created_at", "2025-08-06 03:01:27.662386"], ["updated_at", "2025-08-06 03:01:27.662386"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Height"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.665281"], ["updated_at", "2025-08-06 03:01:27.665281"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Blood Group"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.668280"], ["updated_at", "2025-08-06 03:01:27.668280"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Religion"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.671040"], ["updated_at", "2025-08-06 03:01:27.671040"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 86], ["label", "Caste"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.673860"], ["updated_at", "2025-08-06 03:01:27.673860"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 20], ["name", "Family Information"], ["position", nil], ["created_at", "2025-08-06 03:01:27.676673"], ["updated_at", "2025-08-06 03:01:27.676673"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 87], ["label", "Father's Name"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.679158"], ["updated_at", "2025-08-06 03:01:27.679158"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 87], ["label", "Mother's Name"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.682179"], ["updated_at", "2025-08-06 03:01:27.682179"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 87], ["label", "Family Type"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.685039"], ["updated_at", "2025-08-06 03:01:27.685039"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 87], ["label", "Family Status"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.687749"], ["updated_at", "2025-08-06 03:01:27.687749"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 20], ["name", "Contact Information"], ["position", nil], ["created_at", "2025-08-06 03:01:27.690703"], ["updated_at", "2025-08-06 03:01:27.690703"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 88], ["label", "Phone Number"], ["value", ""], ["field_type", "phone"], ["position", 0], ["created_at", "2025-08-06 03:01:27.693062"], ["updated_at", "2025-08-06 03:01:27.693062"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 88], ["label", "Email Address"], ["value", ""], ["field_type", "email"], ["position", 0], ["created_at", "2025-08-06 03:01:27.695879"], ["updated_at", "2025-08-06 03:01:27.695879"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 88], ["label", "Address"], ["value", ""], ["field_type", "textarea"], ["position", 0], ["created_at", "2025-08-06 03:01:27.698787"], ["updated_at", "2025-08-06 03:01:27.698787"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 20], ["name", "Education & Career"], ["position", nil], ["created_at", "2025-08-06 03:01:27.701609"], ["updated_at", "2025-08-06 03:01:27.701609"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 89], ["label", "Education"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.704535"], ["updated_at", "2025-08-06 03:01:27.704535"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 89], ["label", "Occupation"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.708035"], ["updated_at", "2025-08-06 03:01:27.708035"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 89], ["label", "Company"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.711385"], ["updated_at", "2025-08-06 03:01:27.711385"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 89], ["label", "Annual Income"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.714742"], ["updated_at", "2025-08-06 03:01:27.714742"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 89], ["label", ""], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.718128"], ["updated_at", "2025-08-06 03:01:27.718128"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 20], ["name", "Partner Preferences"], ["position", nil], ["created_at", "2025-08-06 03:01:27.721730"], ["updated_at", "2025-08-06 03:01:27.721730"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 90], ["label", "Age Range"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.724825"], ["updated_at", "2025-08-06 03:01:27.724825"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 90], ["label", "Education Preference"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.728120"], ["updated_at", "2025-08-06 03:01:27.728120"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 90], ["label", "Location Preference"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.731163"], ["updated_at", "2025-08-06 03:01:27.731163"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 90], ["label", "Occupation Preference"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:01:27.740066"], ["updated_at", "2025-08-06 03:01:27.740066"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mTRANSACTION (5.3ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 147ms (ActiveRecord: 12.2ms (30 queries, 0 cached) | GC: 5.6ms)
+
+
+Started GET "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:27 +0530
+Processing by BiodataController#show as TURBO_STREAM
+  Parameters: {"id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:59:in `show'
+  [1m[36mVisit Create (1.8ms)[0m  [1m[32mINSERT INTO "visits" ("biodatum_id", "ip_address", "user_agent", "visited_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 20], ["ip_address", "::1"], ["user_agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"], ["visited_at", "2025-08-06 03:01:27.801977"], ["created_at", "2025-08-06 03:01:27.809189"], ["updated_at", "2025-08-06 03:01:27.809189"]]
+  ↳ app/controllers/biodata_controller.rb:59:in `show'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:59:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering biodata/show.html.erb within layouts/application
+  [1m[36mActiveStorage::Attachment Load (0.2ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = ? AND "active_storage_attachments"."record_type" = ? AND "active_storage_attachments"."name" = ? LIMIT ?[0m  [["record_id", 20], ["record_type", "Biodatum"], ["name", "photo"], ["LIMIT", 1]]
+  ↳ app/views/biodata/show.html.erb:63
+  [1m[36mBiodataSection Load (0.2ms)[0m  [1m[34mSELECT "biodata_sections".* FROM "biodata_sections" WHERE "biodata_sections"."biodatum_id" = ? ORDER BY "biodata_sections"."position" ASC[0m  [["biodatum_id", 20]]
+  ↳ app/views/biodata/show.html.erb:78
+  [1m[36mBiodataField Load (0.3ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 86]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 87]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 88]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 89]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 90]]
+  ↳ app/views/biodata/show.html.erb:85
+  Rendered biodata/show.html.erb within layouts/application (Duration: 34.1ms | GC: 3.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 37.0ms | GC: 4.1ms)
+Completed 200 OK in 92ms (Views: 36.1ms | ActiveRecord: 3.9ms (9 queries, 0 cached) | GC: 6.7ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.5ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:67:in `update'
+  [1m[36mBiodatum Update (3.8ms)[0m  [1m[33mUPDATE "biodata" SET "background_template" = ?, "updated_at" = ? WHERE "biodata"."id" = ?[0m  [["background_template", "blue-copper"], ["updated_at", "2025-08-06 03:01:29.602001"], ["id", 20]]
+  ↳ app/controllers/biodata_controller.rb:67:in `update'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:67:in `update'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 105ms (ActiveRecord: 4.7ms (2 queries, 0 cached) | GC: 2.6ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.4ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 75ms (ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.4ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 84ms (ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 4.3ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 41ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 36ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 34ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:29 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 33ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 33ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 32ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 32ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 30ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 30ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.7ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 30ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 29ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 28ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/biodata/untitled-biodata" for ::1 at 2025-08-06 08:31:30 +0530
+Processing by BiodataController#update as */*
+  Parameters: {"biodatum"=>{"background_template"=>"blue-copper"}, "id"=>"untitled-biodata"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+Redirected to http://localhost:3000/biodata/untitled-biodata
+Completed 302 Found in 27ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:32:01 +0530
+  
+ActionController::RoutingError (uninitialized constant Admin::AdminController)
+Caused by: ActionDispatch::MissingController (uninitialized constant Admin::AdminController)
+Caused by: NameError (uninitialized constant Admin::AdminController)
+
+Information for: ActionController::RoutingError (uninitialized constant Admin::AdminController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant Admin::AdminController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in `rescue in controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:98:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+
+Information for cause: NameError (uninitialized constant Admin::AdminController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/admin" for ::1 at 2025-08-06 08:32:06 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/admin"):
+  
+Started GET "/admin" for ::1 at 2025-08-06 08:32:06 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/admin"):
+  
+Started GET "/admin" for ::1 at 2025-08-06 08:32:35 +0530
+  
+ActionController::RoutingError (No route matches [GET] "/admin"):
+  
+Started GET "/admin" for ::1 at 2025-08-06 08:32:57 +0530
+Redirected to http://localhost:3000/admin/dashboard
+Completed 301 Moved Permanently in 0ms
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:32:57 +0530
+  
+ActionController::RoutingError (uninitialized constant Admin::AdminController)
+Caused by: ActionDispatch::MissingController (uninitialized constant Admin::AdminController)
+Caused by: NameError (uninitialized constant Admin::AdminController)
+
+Information for: ActionController::RoutingError (uninitialized constant Admin::AdminController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant Admin::AdminController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in `rescue in controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:98:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+
+Information for cause: NameError (uninitialized constant Admin::AdminController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:32:59 +0530
+  
+ActionController::RoutingError (uninitialized constant Admin::AdminController)
+Caused by: ActionDispatch::MissingController (uninitialized constant Admin::AdminController)
+Caused by: NameError (uninitialized constant Admin::AdminController)
+
+Information for: ActionController::RoutingError (uninitialized constant Admin::AdminController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant Admin::AdminController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in `rescue in controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:98:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+
+Information for cause: NameError (uninitialized constant Admin::AdminController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/admin" for ::1 at 2025-08-06 08:33:04 +0530
+Redirected to http://localhost:3000/admin/dashboard
+Completed 301 Moved Permanently in 1ms
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:33:04 +0530
+  
+ActionController::RoutingError (uninitialized constant Admin::AdminController)
+Caused by: ActionDispatch::MissingController (uninitialized constant Admin::AdminController)
+Caused by: NameError (uninitialized constant Admin::AdminController)
+
+Information for: ActionController::RoutingError (uninitialized constant Admin::AdminController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant Admin::AdminController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in `rescue in controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:98:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+
+Information for cause: NameError (uninitialized constant Admin::AdminController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/admin" for ::1 at 2025-08-06 08:33:05 +0530
+Redirected to http://localhost:3000/admin/dashboard
+Completed 301 Moved Permanently in 1ms
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:33:05 +0530
+  
+ActionController::RoutingError (uninitialized constant Admin::AdminController)
+Caused by: ActionDispatch::MissingController (uninitialized constant Admin::AdminController)
+Caused by: NameError (uninitialized constant Admin::AdminController)
+
+Information for: ActionController::RoutingError (uninitialized constant Admin::AdminController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant Admin::AdminController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in `rescue in controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:98:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+
+Information for cause: NameError (uninitialized constant Admin::AdminController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:33:16 +0530
+  
+ActionController::RoutingError (uninitialized constant Admin::AdminController)
+Caused by: ActionDispatch::MissingController (uninitialized constant Admin::AdminController)
+Caused by: NameError (uninitialized constant Admin::AdminController)
+
+Information for: ActionController::RoutingError (uninitialized constant Admin::AdminController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant Admin::AdminController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in `rescue in controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:98:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+
+Information for cause: NameError (uninitialized constant Admin::AdminController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in `controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in `controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in `controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:31:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:35:09 +0530
+Processing by AdminController#dashboard as HTML
+Completed 401 Unauthorized in 39ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 1.7ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2025-08-06 08:35:10 +0530
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering /home/kapil-dev-pal/.rvm/gems/ruby-3.3.4/gems/devise-4.9.4/app/views/devise/sessions/new.html.erb within layouts/application
+  Rendered /home/kapil-dev-pal/.rvm/gems/ruby-3.3.4/gems/devise-4.9.4/app/views/devise/shared/_links.html.erb (Duration: 1.7ms | GC: 0.0ms)
+  Rendered /home/kapil-dev-pal/.rvm/gems/ruby-3.3.4/gems/devise-4.9.4/app/views/devise/sessions/new.html.erb within layouts/application (Duration: 17.1ms | GC: 0.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 21.2ms | GC: 0.4ms)
+Completed 200 OK in 69ms (Views: 27.4ms | ActiveRecord: 1.6ms (0 queries, 0 cached) | GC: 0.7ms)
+
+
+Started POST "/users/sign_in" for ::1 at 2025-08-06 08:35:48 +0530
+Processing by Devise::SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 500 Internal Server Error in 402ms (ActiveRecord: 1.9ms (1 query, 0 cached) | GC: 0.1ms)
+
+
+  
+NameError (uninitialized constant AdminUser):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in `constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in `constantize'
+devise (4.9.4) lib/devise.rb:327:in `get'
+devise (4.9.4) lib/devise/mapping.rb:83:in `to'
+devise (4.9.4) lib/devise/mapping.rb:43:in `block in find_scope!'
+devise (4.9.4) lib/devise/mapping.rb:43:in `each_value'
+devise (4.9.4) lib/devise/mapping.rb:43:in `find_scope!'
+devise (4.9.4) lib/devise/controllers/store_location.rb:52:in `stored_location_key_for'
+devise (4.9.4) lib/devise/controllers/store_location.rb:19:in `stored_location_for'
+devise (4.9.4) lib/devise/controllers/helpers.rb:218:in `after_sign_in_path_for'
+devise (4.9.4) app/controllers/devise/sessions_controller.rb:23:in `create'
+actionpack (8.0.2) lib/action_controller/metal/basic_implicit_render.rb:8:in `send_action'
+actionpack (8.0.2) lib/abstract_controller/base.rb:226:in `process_action'
+actionpack (8.0.2) lib/action_controller/metal/rendering.rb:193:in `process_action'
+actionpack (8.0.2) lib/abstract_controller/callbacks.rb:261:in `block in process_action'
+activesupport (8.0.2) lib/active_support/callbacks.rb:120:in `block in run_callbacks'
+turbo-rails (2.0.16) lib/turbo-rails.rb:24:in `with_request_id'
+turbo-rails (2.0.16) app/controllers/concerns/turbo/request_id_tracking.rb:10:in `turbo_tracking_request_id'
+activesupport (8.0.2) lib/active_support/callbacks.rb:129:in `block in run_callbacks'
+actiontext (8.0.2) lib/action_text/rendering.rb:25:in `with_renderer'
+actiontext (8.0.2) lib/action_text/engine.rb:71:in `block (4 levels) in <class:Engine>'
+activesupport (8.0.2) lib/active_support/callbacks.rb:129:in `instance_exec'
+activesupport (8.0.2) lib/active_support/callbacks.rb:129:in `block in run_callbacks'
+activesupport (8.0.2) lib/active_support/callbacks.rb:140:in `run_callbacks'
+actionpack (8.0.2) lib/abstract_controller/callbacks.rb:260:in `process_action'
+actionpack (8.0.2) lib/action_controller/metal/rescue.rb:27:in `process_action'
+actionpack (8.0.2) lib/action_controller/metal/instrumentation.rb:76:in `block in process_action'
+activesupport (8.0.2) lib/active_support/notifications.rb:210:in `block in instrument'
+activesupport (8.0.2) lib/active_support/notifications/instrumenter.rb:58:in `instrument'
+activesupport (8.0.2) lib/active_support/notifications.rb:210:in `instrument'
+actionpack (8.0.2) lib/action_controller/metal/instrumentation.rb:75:in `process_action'
+actionpack (8.0.2) lib/action_controller/metal/params_wrapper.rb:259:in `process_action'
+activerecord (8.0.2) lib/active_record/railties/controller_runtime.rb:39:in `process_action'
+actionpack (8.0.2) lib/abstract_controller/base.rb:163:in `process'
+actionview (8.0.2) lib/action_view/rendering.rb:40:in `process'
+actionpack (8.0.2) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (8.0.2) lib/action_controller/metal.rb:335:in `dispatch'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:67:in `dispatch'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:50:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:32:in `block in <class:Constraints>'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:62:in `serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in `block in serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in `block in find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in `find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in `serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in `call'
+warden (1.2.9) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.9) lib/warden/manager.rb:34:in `catch'
+warden (1.2.9) lib/warden/manager.rb:34:in `call'
+rack (3.2.0) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.2.0) lib/rack/etag.rb:29:in `call'
+rack (3.2.0) lib/rack/conditional_get.rb:44:in `call'
+rack (3.2.0) lib/rack/head.rb:15:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in `call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in `call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in `block in call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in `run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in `call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in `call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in `call'
+propshaft (1.2.1) lib/propshaft/quiet_assets.rb:11:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in `call'
+rack (3.2.0) lib/rack/method_override.rb:28:in `call'
+rack (3.2.0) lib/rack/runtime.rb:24:in `call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in `call'
+rack (3.2.0) lib/rack/sendfile.rb:114:in `call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in `call'
+railties (8.0.2) lib/rails/engine.rb:535:in `call'
+puma (6.6.1) lib/puma/configuration.rb:279:in `call'
+puma (6.6.1) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.1) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.1) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.1) lib/puma/server.rb:472:in `process_client'
+puma (6.6.1) lib/puma/server.rb:254:in `block in run'
+puma (6.6.1) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/users/sign_in" for ::1 at 2025-08-06 08:36:03 +0530
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering /home/kapil-dev-pal/.rvm/gems/ruby-3.3.4/gems/devise-4.9.4/app/views/devise/sessions/new.html.erb within layouts/application
+  Rendered /home/kapil-dev-pal/.rvm/gems/ruby-3.3.4/gems/devise-4.9.4/app/views/devise/shared/_links.html.erb (Duration: 3.7ms | GC: 0.0ms)
+  Rendered /home/kapil-dev-pal/.rvm/gems/ruby-3.3.4/gems/devise-4.9.4/app/views/devise/sessions/new.html.erb within layouts/application (Duration: 12.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 23.4ms | GC: 0.0ms)
+Completed 200 OK in 138ms (Views: 32.2ms | ActiveRecord: 4.7ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 08:36:07 +0530
+Processing by BiodataController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering biodata/index.html.erb within layouts/application
+  [1m[36mBiodatum Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "biodata" WHERE "biodata"."is_active" = ?[0m  [["is_active", 1]]
+  ↳ app/views/biodata/index.html.erb:45
+  Rendered biodata/index.html.erb within layouts/application (Duration: 9.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 14.1ms | GC: 0.0ms)
+Completed 200 OK in 188ms (Views: 18.3ms | ActiveRecord: 1.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/biodata/new" for ::1 at 2025-08-06 08:36:09 +0530
+Processing by BiodataController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering biodata/new.html.erb within layouts/application
+  Rendered biodata/new.html.erb within layouts/application (Duration: 108.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 115.3ms | GC: 0.0ms)
+Completed 200 OK in 443ms (Views: 118.2ms | ActiveRecord: 6.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/biodata" for ::1 at 2025-08-06 08:36:13 +0530
+Processing by BiodataController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "biodatum"=>{"name"=>"", "background_template"=>"watercolor-1", "description"=>"", "biodata_sections_attributes"=>{"0"=>{"name"=>"Personal Information", "biodata_fields_attributes"=>{"0"=>{"label"=>"Full Name", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Date of Birth", "value"=>"", "field_type"=>"date"}, "2"=>{"label"=>"Age", "value"=>"", "field_type"=>"number"}, "3"=>{"label"=>"Height", "value"=>"", "field_type"=>"text"}, "4"=>{"label"=>"Blood Group", "value"=>"", "field_type"=>"text"}, "5"=>{"label"=>"Religion", "value"=>"", "field_type"=>"text"}, "6"=>{"label"=>"Caste", "value"=>"", "field_type"=>"text"}}}, "1"=>{"name"=>"Family Information", "biodata_fields_attributes"=>{"0"=>{"label"=>"Father's Name", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Mother's Name", "value"=>"", "field_type"=>"text"}, "2"=>{"label"=>"Family Type", "value"=>"", "field_type"=>"text"}, "3"=>{"label"=>"Family Status", "value"=>"", "field_type"=>"text"}}}, "2"=>{"name"=>"Contact Information", "biodata_fields_attributes"=>{"0"=>{"label"=>"Phone Number", "value"=>"", "field_type"=>"phone"}, "1"=>{"label"=>"Email Address", "value"=>"", "field_type"=>"email"}, "2"=>{"label"=>"Address", "value"=>"", "field_type"=>"textarea"}}}, "3"=>{"name"=>"Education & Career", "biodata_fields_attributes"=>{"0"=>{"label"=>"Education", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Occupation", "value"=>"", "field_type"=>"text"}, "2"=>{"label"=>"Company", "value"=>"", "field_type"=>"text"}, "3"=>{"label"=>"Annual Income", "value"=>"", "field_type"=>"text"}}}, "4"=>{"name"=>"Partner Preferences", "biodata_fields_attributes"=>{"0"=>{"label"=>"Age Range", "value"=>"", "field_type"=>"text"}, "1"=>{"label"=>"Education Preference", "value"=>"", "field_type"=>"text"}, "2"=>{"label"=>"Location Preference", "value"=>"", "field_type"=>"text"}, "3"=>{"label"=>"Occupation Preference", "value"=>"", "field_type"=>"text"}}}}}, "commit"=>"Create Biodata"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/models/biodatum.rb:93:in `generate_slug'
+  [1m[36mBiodatum Exists? (2.2ms)[0m  [1m[34mSELECT 1 AS one FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata"], ["LIMIT", 1]]
+  ↳ app/models/biodatum.rb:93:in `generate_slug'
+  [1m[36mBiodatum Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata-1"], ["LIMIT", 1]]
+  ↳ app/models/biodatum.rb:93:in `generate_slug'
+  [1m[36mBiodatum Create (0.4ms)[0m  [1m[32mINSERT INTO "biodata" ("name", "slug", "photo", "background_template", "description", "is_active", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Untitled Biodata"], ["slug", "untitled-biodata-1"], ["photo", nil], ["background_template", "watercolor-1"], ["description", ""], ["is_active", 1], ["created_at", "2025-08-06 03:06:13.417952"], ["updated_at", "2025-08-06 03:06:13.417952"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["name", "Personal Information"], ["position", nil], ["created_at", "2025-08-06 03:06:13.423455"], ["updated_at", "2025-08-06 03:06:13.423455"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Full Name"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.429284"], ["updated_at", "2025-08-06 03:06:13.429284"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Date of Birth"], ["value", ""], ["field_type", "date"], ["position", 0], ["created_at", "2025-08-06 03:06:13.433001"], ["updated_at", "2025-08-06 03:06:13.433001"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Age"], ["value", ""], ["field_type", "number"], ["position", 0], ["created_at", "2025-08-06 03:06:13.436182"], ["updated_at", "2025-08-06 03:06:13.436182"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Height"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.439292"], ["updated_at", "2025-08-06 03:06:13.439292"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Blood Group"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.442263"], ["updated_at", "2025-08-06 03:06:13.442263"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Religion"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.445176"], ["updated_at", "2025-08-06 03:06:13.445176"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 91], ["label", "Caste"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.449337"], ["updated_at", "2025-08-06 03:06:13.449337"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.3ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["name", "Family Information"], ["position", nil], ["created_at", "2025-08-06 03:06:13.452500"], ["updated_at", "2025-08-06 03:06:13.452500"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 92], ["label", "Father's Name"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.455343"], ["updated_at", "2025-08-06 03:06:13.455343"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 92], ["label", "Mother's Name"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.458305"], ["updated_at", "2025-08-06 03:06:13.458305"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 92], ["label", "Family Type"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.461102"], ["updated_at", "2025-08-06 03:06:13.461102"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 92], ["label", "Family Status"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.463845"], ["updated_at", "2025-08-06 03:06:13.463845"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["name", "Contact Information"], ["position", nil], ["created_at", "2025-08-06 03:06:13.467596"], ["updated_at", "2025-08-06 03:06:13.467596"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 93], ["label", "Phone Number"], ["value", ""], ["field_type", "phone"], ["position", 0], ["created_at", "2025-08-06 03:06:13.470274"], ["updated_at", "2025-08-06 03:06:13.470274"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 93], ["label", "Email Address"], ["value", ""], ["field_type", "email"], ["position", 0], ["created_at", "2025-08-06 03:06:13.473138"], ["updated_at", "2025-08-06 03:06:13.473138"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 93], ["label", "Address"], ["value", ""], ["field_type", "textarea"], ["position", 0], ["created_at", "2025-08-06 03:06:13.476106"], ["updated_at", "2025-08-06 03:06:13.476106"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["name", "Education & Career"], ["position", nil], ["created_at", "2025-08-06 03:06:13.479016"], ["updated_at", "2025-08-06 03:06:13.479016"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 94], ["label", "Education"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.481643"], ["updated_at", "2025-08-06 03:06:13.481643"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 94], ["label", "Occupation"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.485769"], ["updated_at", "2025-08-06 03:06:13.485769"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 94], ["label", "Company"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.488640"], ["updated_at", "2025-08-06 03:06:13.488640"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 94], ["label", "Annual Income"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.491274"], ["updated_at", "2025-08-06 03:06:13.491274"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataSection Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_sections" ("biodatum_id", "name", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["name", "Partner Preferences"], ["position", nil], ["created_at", "2025-08-06 03:06:13.495138"], ["updated_at", "2025-08-06 03:06:13.495138"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 95], ["label", "Age Range"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.497602"], ["updated_at", "2025-08-06 03:06:13.497602"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 95], ["label", "Education Preference"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.501708"], ["updated_at", "2025-08-06 03:06:13.501708"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 95], ["label", "Location Preference"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.504522"], ["updated_at", "2025-08-06 03:06:13.504522"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mBiodataField Create (0.2ms)[0m  [1m[32mINSERT INTO "biodata_fields" ("biodatum_id", "biodata_section_id", "label", "value", "field_type", "position", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", nil], ["biodata_section_id", 95], ["label", "Occupation Preference"], ["value", ""], ["field_type", "text"], ["position", 0], ["created_at", "2025-08-06 03:06:13.508077"], ["updated_at", "2025-08-06 03:06:13.508077"]]
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+  [1m[36mTRANSACTION (16.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:45:in `create'
+Redirected to http://localhost:3000/biodata/untitled-biodata-1
+Completed 302 Found in 205ms (ActiveRecord: 24.0ms (30 queries, 0 cached) | GC: 17.8ms)
+
+
+Started GET "/biodata/untitled-biodata-1" for ::1 at 2025-08-06 08:36:13 +0530
+Processing by BiodataController#show as TURBO_STREAM
+  Parameters: {"id"=>"untitled-biodata-1"}
+  [1m[36mBiodatum Load (0.3ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata-1"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:59:in `show'
+  [1m[36mVisit Create (2.1ms)[0m  [1m[32mINSERT INTO "visits" ("biodatum_id", "ip_address", "user_agent", "visited_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["ip_address", "::1"], ["user_agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"], ["visited_at", "2025-08-06 03:06:13.578399"], ["created_at", "2025-08-06 03:06:13.584553"], ["updated_at", "2025-08-06 03:06:13.584553"]]
+  ↳ app/controllers/biodata_controller.rb:59:in `show'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:59:in `show'
+  Rendering layout layouts/application.html.erb
+  Rendering biodata/show.html.erb within layouts/application
+  [1m[36mActiveStorage::Attachment Load (0.2ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = ? AND "active_storage_attachments"."record_type" = ? AND "active_storage_attachments"."name" = ? LIMIT ?[0m  [["record_id", 21], ["record_type", "Biodatum"], ["name", "photo"], ["LIMIT", 1]]
+  ↳ app/views/biodata/show.html.erb:63
+  [1m[36mBiodataSection Load (0.2ms)[0m  [1m[34mSELECT "biodata_sections".* FROM "biodata_sections" WHERE "biodata_sections"."biodatum_id" = ? ORDER BY "biodata_sections"."position" ASC[0m  [["biodatum_id", 21]]
+  ↳ app/views/biodata/show.html.erb:78
+  [1m[36mBiodataField Load (0.2ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 91]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 92]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 93]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 94]]
+  ↳ app/views/biodata/show.html.erb:85
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 95]]
+  ↳ app/views/biodata/show.html.erb:85
+  Rendered biodata/show.html.erb within layouts/application (Duration: 31.8ms | GC: 1.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 33.5ms | GC: 1.3ms)
+Completed 200 OK in 85ms (Views: 32.7ms | ActiveRecord: 4.4ms (9 queries, 0 cached) | GC: 1.8ms)
+
+
+Started GET "/biodata/untitled-biodata-1" for ::1 at 2025-08-06 08:36:35 +0530
+Processing by BiodataController#show as HTML
+  Parameters: {"id"=>"untitled-biodata-1"}
+  [1m[36mBiodatum Load (0.7ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata-1"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:57:in `show'
+  [1m[36mVisit Create (5.3ms)[0m  [1m[32mINSERT INTO "visits" ("biodatum_id", "ip_address", "user_agent", "visited_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["ip_address", "::1"], ["user_agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"], ["visited_at", "2025-08-06 03:06:36.179992"], ["created_at", "2025-08-06 03:06:36.196723"], ["updated_at", "2025-08-06 03:06:36.196723"]]
+  ↳ app/controllers/biodata_controller.rb:57:in `show'
+  [1m[36mTRANSACTION (12.3ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:57:in `show'
+Redirected to http://localhost:3000/biodata/untitled-biodata-1/preview
+Completed 302 Found in 188ms (ActiveRecord: 23.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/biodata/untitled-biodata-1/preview" for ::1 at 2025-08-06 08:36:36 +0530
+Processing by BiodataController#preview as HTML
+  Parameters: {"id"=>"untitled-biodata-1"}
+  [1m[36mBiodatum Load (0.9ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "untitled-biodata-1"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:77:in `preview'
+  [1m[36mVisit Create (7.1ms)[0m  [1m[32mINSERT INTO "visits" ("biodatum_id", "ip_address", "user_agent", "visited_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 21], ["ip_address", "::1"], ["user_agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"], ["visited_at", "2025-08-06 03:06:36.376311"], ["created_at", "2025-08-06 03:06:36.378906"], ["updated_at", "2025-08-06 03:06:36.378906"]]
+  ↳ app/controllers/biodata_controller.rb:77:in `preview'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:77:in `preview'
+  Rendering biodata/preview.html.erb
+  [1m[36mActiveStorage::Attachment Load (0.3ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = ? AND "active_storage_attachments"."record_type" = ? AND "active_storage_attachments"."name" = ? LIMIT ?[0m  [["record_id", 21], ["record_type", "Biodatum"], ["name", "photo"], ["LIMIT", 1]]
+  ↳ app/views/biodata/preview.html.erb:170
+  [1m[36mBiodataSection Load (0.2ms)[0m  [1m[34mSELECT "biodata_sections".* FROM "biodata_sections" WHERE "biodata_sections"."biodatum_id" = ? ORDER BY "biodata_sections"."position" ASC[0m  [["biodatum_id", 21]]
+  ↳ app/views/biodata/preview.html.erb:185
+  [1m[36mBiodataField Load (0.4ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 91]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.2ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 92]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 93]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 94]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.5ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 95]]
+  ↳ app/views/biodata/preview.html.erb:192
+  Rendered biodata/preview.html.erb (Duration: 120.4ms | GC: 12.5ms)
+Completed 200 OK in 241ms (Views: 124.2ms | ActiveRecord: 13.5ms (9 queries, 0 cached) | GC: 12.5ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:36:45 +0530
+Processing by AdminController#dashboard as */*
+Completed 401 Unauthorized in 92ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:36:51 +0530
+Processing by AdminController#dashboard as */*
+Completed 401 Unauthorized in 39ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 08:37:00 +0530
+Processing by BiodataController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering biodata/index.html.erb within layouts/application
+  [1m[36mBiodatum Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "biodata" WHERE "biodata"."is_active" = ?[0m  [["is_active", 1]]
+  ↳ app/views/biodata/index.html.erb:45
+  Rendered biodata/index.html.erb within layouts/application (Duration: 6.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 12.2ms | GC: 0.0ms)
+Completed 200 OK in 49ms (Views: 14.1ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.4ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-08-06 08:37:04 +0530
+Processing by AdminController#dashboard as */*
+Completed 401 Unauthorized in 34ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started HEAD "/admin/dashboard" for ::1 at 2025-08-06 08:37:10 +0530
+Processing by AdminController#dashboard as */*
+Completed 401 Unauthorized in 33ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mBiodatum Load (0.3ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" ORDER BY "biodata"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+Started HEAD "/biodata/rahul-sharma" for ::1 at 2025-08-06 08:37:22 +0530
+Processing by BiodataController#show as */*
+  Parameters: {"id"=>"rahul-sharma"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "rahul-sharma"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:57:in `show'
+  [1m[36mVisit Create (2.5ms)[0m  [1m[32mINSERT INTO "visits" ("biodatum_id", "ip_address", "user_agent", "visited_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 19], ["ip_address", "::1"], ["user_agent", "curl/8.12.1"], ["visited_at", "2025-08-06 03:07:22.370715"], ["created_at", "2025-08-06 03:07:22.372430"], ["updated_at", "2025-08-06 03:07:22.372430"]]
+  ↳ app/controllers/biodata_controller.rb:57:in `show'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:57:in `show'
+Redirected to http://localhost:3000/biodata/rahul-sharma/preview
+Completed 302 Found in 44ms (ActiveRecord: 2.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started HEAD "/biodata/rahul-sharma/preview" for ::1 at 2025-08-06 08:37:26 +0530
+Processing by BiodataController#preview as */*
+  Parameters: {"id"=>"rahul-sharma"}
+  [1m[36mBiodatum Load (0.2ms)[0m  [1m[34mSELECT "biodata".* FROM "biodata" WHERE "biodata"."slug" = ? LIMIT ?[0m  [["slug", "rahul-sharma"], ["LIMIT", 1]]
+  ↳ app/controllers/biodata_controller.rb:89:in `set_biodatum'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:77:in `preview'
+  [1m[36mVisit Create (1.7ms)[0m  [1m[32mINSERT INTO "visits" ("biodatum_id", "ip_address", "user_agent", "visited_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["biodatum_id", 19], ["ip_address", "::1"], ["user_agent", "curl/8.12.1"], ["visited_at", "2025-08-06 03:07:26.834518"], ["created_at", "2025-08-06 03:07:26.835672"], ["updated_at", "2025-08-06 03:07:26.835672"]]
+  ↳ app/controllers/biodata_controller.rb:77:in `preview'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  ↳ app/controllers/biodata_controller.rb:77:in `preview'
+  Rendering biodata/preview.html.erb
+  [1m[36mActiveStorage::Attachment Load (0.3ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = ? AND "active_storage_attachments"."record_type" = ? AND "active_storage_attachments"."name" = ? LIMIT ?[0m  [["record_id", 19], ["record_type", "Biodatum"], ["name", "photo"], ["LIMIT", 1]]
+  ↳ app/views/biodata/preview.html.erb:170
+  [1m[36mBiodataSection Load (0.2ms)[0m  [1m[34mSELECT "biodata_sections".* FROM "biodata_sections" WHERE "biodata_sections"."biodatum_id" = ? ORDER BY "biodata_sections"."position" ASC[0m  [["biodatum_id", 19]]
+  ↳ app/views/biodata/preview.html.erb:185
+  [1m[36mBiodataField Load (0.2ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 81]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.1ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 82]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.2ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 83]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.2ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 84]]
+  ↳ app/views/biodata/preview.html.erb:192
+  [1m[36mBiodataField Load (0.2ms)[0m  [1m[34mSELECT "biodata_fields".* FROM "biodata_fields" WHERE "biodata_fields"."biodata_section_id" = ? ORDER BY "biodata_fields"."position" ASC[0m  [["biodata_section_id", 85]]
+  ↳ app/views/biodata/preview.html.erb:192
+  Rendered biodata/preview.html.erb (Duration: 28.2ms | GC: 2.4ms)
+Completed 200 OK in 70ms (Views: 27.9ms | ActiveRecord: 3.3ms (9 queries, 0 cached) | GC: 2.4ms)
+
+

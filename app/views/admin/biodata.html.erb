@@ -26,9 +26,9 @@
     <nav class="bg-white shadow-sm border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex space-x-8 py-4">
-          <%= link_to "Dashboard", admin_dashboard_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
-          <%= link_to "Biodata", admin_biodata_path, class: "text-blue-600 border-b-2 border-blue-600 pb-2 px-1 text-sm font-medium" %>
-          <%= link_to "Visits", admin_visits_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+          <%= link_to "Dashboard", "/admin/dashboard", class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+          <%= link_to "Biodata", "/admin/biodata", class: "text-blue-600 border-b-2 border-blue-600 pb-2 px-1 text-sm font-medium" %>
+          <%= link_to "Visits", "/admin/visits", class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
           <%= link_to "Main Site", root_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
         </div>
       </div>
@@ -134,10 +134,10 @@
               </div>
               <div class="flex space-x-2">
                 <% if @biodata.previous_page %>
-                  <%= link_to "Previous", admin_biodata_path(page: @biodata.previous_page), class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+                  <%= link_to "Previous", "/admin/biodata?page=#{@biodata.previous_page}", class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
                 <% end %>
                 <% if @biodata.next_page %>
-                  <%= link_to "Next", admin_biodata_path(page: @biodata.next_page), class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+                  <%= link_to "Next", "/admin/biodata?page=#{@biodata.next_page}", class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
                 <% end %>
               </div>
             </div>

@@ -10,11 +10,9 @@ Rails.application.routes.draw do
   root "biodata#index"
   
   # Admin routes
-  namespace :admin do
-    get 'dashboard', to: 'admin#dashboard'
-    get 'biodata', to: 'admin#biodata'
-    get 'visits', to: 'admin#visits'
-  end
+  get 'admin/dashboard', to: 'admin#dashboard'
+  get 'admin/biodata', to: 'admin#biodata'
+  get 'admin/visits', to: 'admin#visits'
 
   # Biodata routes
   resources :biodata, except: [:destroy] do

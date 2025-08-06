@@ -5,9 +5,7 @@ class BiodataController < ApplicationController
     @biodata = Biodatum.where(is_active: true).order(created_at: :desc)
   end
 
-  def show
-    # Show the public view of the biodata
-  end
+
 
   def new
     @biodatum = Biodatum.new
@@ -61,6 +59,8 @@ class BiodataController < ApplicationController
       user_agent: request.user_agent,
       visited_at: Time.current
     )
+    # Redirect to preview page instead of showing the main page
+    redirect_to preview_biodatum_path(@biodatum)
   end
 
   def update
