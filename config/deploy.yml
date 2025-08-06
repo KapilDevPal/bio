@@ -61,11 +61,12 @@ aliases:
 volumes:
   - "bio_test_app_storage:/rails/storage"
 
+asset_path: /rails/public/assets
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combine
+builder:
   arch: amd64
-
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
   #
