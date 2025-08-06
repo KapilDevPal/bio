@@ -5,15 +5,13 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Multi-step biodata generation workflow
-  root "application#index"
-  get "data_entry", to: "application#data_entry"
-  get "template_selection", to: "application#template_selection"
-  get "preview", to: "application#preview"
-  post "save_data", to: "application#save_data"
-  patch "update_template", to: "application#update_template"
+  # Root route
+  root "biodata#index"
   
-  # Export routes
-  get "export_pdf", to: "application#export_pdf", defaults: { format: :pdf }
-  get "export_image", to: "application#export_image"
+  # Biodata routes
+  resources :biodata, except: [:destroy] do
+    member do
+      get :preview
+    end
+  end
 end

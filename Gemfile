@@ -51,9 +51,7 @@ gem "stimulus-rails"
 # Use Tailwind CSS for styling
 gem "tailwindcss-rails"
 
-# Use prawn for PDF generation
-gem "prawn"
-gem "prawn-table"
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

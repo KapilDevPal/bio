@@ -1,0 +1,220 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header with Actions -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @biodatum.name %></h1>
+        <% if @biodatum.description.present? %>
+          <p class="text-gray-600"><%= @biodatum.description %></p>
+        <% end %>
+      </div>
+      <div class="flex space-x-3">
+        <%= link_to preview_biodatum_path(@biodatum), 
+            class: "bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors" do %>
+          <i class="fas fa-eye mr-1"></i>
+          Preview
+        <% end %>
+        <%= link_to edit_biodatum_path(@biodatum), 
+            class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors" do %>
+          <i class="fas fa-edit mr-1"></i>
+          Edit
+        <% end %>
+        <%= link_to biodata_path, 
+            class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors" do %>
+          <i class="fas fa-arrow-left mr-1"></i>
+          Back
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Template Selection -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Choose Background Template</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <% Biodatum::BACKGROUND_TEMPLATES.each do |template| %>
+          <button 
+            class="template-option p-3 border-2 rounded-lg text-center text-sm font-medium transition-all <%= 'border-pink-500 bg-pink-50' if template == @biodatum.background_template %>"
+            data-template="<%= template %>"
+            onclick="changeTemplate('<%= template %>')"
+          >
+            <%= template.titleize %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Biodata Display -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <!-- A4 Preview Container -->
+      <div class="a4-preview-container" style="width: 210mm; height: 297mm; margin: 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); position: relative; overflow: hidden;">
+        <!-- Background Image -->
+        <div class="background-image" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('<%= @biodatum.background_image_url %>'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.15;"></div>
+        
+        <!-- Content Overlay -->
+        <div class="content-overlay" style="position: relative; z-index: 1; padding: 40px; height: 100%; box-sizing: border-box;">
+          <!-- Header -->
+          <div class="text-center mb-8">
+            <% if @biodatum.photo.present? %>
+              <div class="mb-6">
+                <img src="<%= @biodatum.photo %>" alt="<%= @biodatum.name %>" class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white shadow-lg">
+              </div>
+            <% end %>
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Biodata</h1>
+            <div class="w-20 h-1 bg-pink-500 mx-auto"></div>
+          </div>
+
+          <!-- Dynamic Sections -->
+          <div class="biodata-content">
+            <% @biodatum.biodata_sections.each do |section| %>
+              <div class="section mb-8">
+                <h2 class="text-2xl font-bold text-pink-600 mb-4 border-b-2 border-pink-200 pb-2">
+                  <%= section.name %>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <% section.biodata_fields.each do |field| %>
+                    <% if field.value.present? %>
+                      <div class="field-item bg-white bg-opacity-95 p-4 rounded-lg border border-gray-200 shadow-sm">
+                        <div class="text-sm font-bold text-pink-600 mb-1 uppercase tracking-wide">
+                          <%= field.label %>
+                        </div>
+                        <div class="text-gray-800 text-lg">
+                          <%= field.value %>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Footer -->
+          <div class="text-center mt-auto pt-8 border-t-2 border-pink-200">
+            <p class="text-gray-600 font-medium">
+              Generated on <%= Date.current.strftime("%B %d, %Y") %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Options -->
+    <div class="mt-8 text-center">
+      <div class="flex justify-center space-x-4">
+        <button onclick="window.print()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium transition-colors">
+          <i class="fas fa-print mr-2"></i>
+          Print / Save as PDF
+        </button>
+        <button onclick="downloadAsImage()" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-md font-medium transition-colors">
+          <i class="fas fa-download mr-2"></i>
+          Download as Image
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function changeTemplate(template) {
+  // Update the background image
+  const backgroundImage = document.querySelector('.background-image');
+  const templateImages = {
+    'watercolor-1': '<%= asset_path("watercolor-leaves-with-copy-space-design_53876-62980.jpg") %>',
+    'watercolor-2': '<%= asset_path("hand-drawn-watercolor-blue-flowers-leaves-post-card-isolated-white-can-be-used-cards-banners-invitations-label_635006-1614.jpg") %>',
+    'watercolor-3': '<%= asset_path("hand-drawn-watercolor-blue-flowers-leaves-post-card-isolated-white-can-be-used-cards-banners-invitations-label_635006-1705.jpg") %>',
+    'watercolor-4': '<%= asset_path("painted-watercolor-delicate-romantic-leaves-berries-pastel-floral-clip-art-perfect-wedding-postcard-making-diy-project-closeup-white-background_78967-4658.jpg") %>',
+    'watercolor-5': '<%= asset_path("painted-watercolor-delicate-romantic-leaves-berries-pastel-floral-clip-art-perfect-wedding-postcard-making-diy-project-closeup-white-background_78967-4656.jpg") %>',
+    'watercolor-6': '<%= asset_path("painted-watercolor-delicate-romantic-leaves-berries-pastel-floral-clip-art-perfect-wedding-postcard-making-diy-project-closeup-white-background_78967-4657.jpg") %>',
+    'elegant-1': '<%= asset_path("elegant-letterhead-design-company-hotels_1101622-4756.jpg") %>',
+    'elegant-2': '<%= asset_path("white-invitation-card-design-element_53876-1002931.jpg") %>',
+    'botanical-1': '<%= asset_path("leafy-paper-rectangle-frame-vector_53876-164690.jpg") %>',
+    'botanical-2': '<%= asset_path("leaf-png-border-transparent-background_53876-998568.jpg") %>',
+    'botanical-3': '<%= asset_path("watercolor-illustration-frame-with-eucalyptus-feathers-anemones-berries-hand-drawn-clipart_596988-29.jpg") %>',
+    'minimal': '<%= asset_path("minimalistic-invitation-template-with-white-background-autumn-leaves-watercolor-style_700253-1176.jpg") %>',
+    'copper': '<%= asset_path("rectangle-copper-frame-with-foliage-pattern-design-element_53876-1020729.jpg") %>',
+    'gold': '<%= asset_path("metallic-gold-border-frame-png-winter-effect_53876-972438.jpg") %>',
+    'marble': '<%= asset_path("black-marble-frame-png-with-green-leaf_53876-968983.jpg") %>',
+    'paper': '<%= asset_path("paper-list-with-flowers-bright-background_23-2147829589.jpg") %>',
+    'blue-copper': '<%= asset_path("hand-drawn-watercolor-blue-copper-leaves-post-card-isolated-white-can-be-used-cards-banners-invitations-label_635006-1663.jpg") %>',
+    'santa-plants': '<%= asset_path("santa-claus-plants-letter-template_23-2147964131.jpg") %>'
+  };
+  
+  backgroundImage.style.backgroundImage = `url('${templateImages[template]}')`;
+  
+  // Update active template button
+  document.querySelectorAll('.template-option').forEach(btn => {
+    btn.classList.remove('border-pink-500', 'bg-pink-50');
+  });
+  event.target.classList.add('border-pink-500', 'bg-pink-50');
+  
+  // Update the biodatum in the database
+  fetch('<%= biodatum_path(@biodatum) %>', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify({
+      biodatum: {
+        background_template: template
+      }
+    })
+  });
+}
+
+function downloadAsImage() {
+  // Use html2canvas to capture the biodata as an image
+  const element = document.querySelector('.a4-preview-container');
+  
+  // Load html2canvas if not already loaded
+  if (typeof html2canvas === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    script.onload = function() {
+      captureAndDownload();
+    };
+    document.head.appendChild(script);
+  } else {
+    captureAndDownload();
+  }
+  
+  function captureAndDownload() {
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: null
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = '<%= @biodatum.name.parameterize %>-biodata.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
+}
+</script>
+
+<style>
+@media print {
+  .template-option, .bg-gray-50, .flex.space-x-3, .bg-white.rounded-lg.shadow-sm {
+    display: none !important;
+  }
+  
+  .a4-preview-container {
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  .content-overlay {
+    padding: 20px !important;
+  }
+}
+
+.template-option:hover {
+  border-color: #ec4899;
+  background-color: #fdf2f8;
+}
+</style>

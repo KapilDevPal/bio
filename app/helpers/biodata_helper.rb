@@ -1,0 +1,2 @@
+module BiodataHelper
+end

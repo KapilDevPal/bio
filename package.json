@@ -1,7 +1,7 @@
 {
   "name": "bio_test_app",
   "version": "1.0.0",
-  "description": "A beautiful, responsive web application for creating, customizing, and downloading marriage biodata without requiring user accounts. Built with Ruby on Rails 8, Hotwire, and TailwindCSS.",
+  "description": "A modern Rails 8 application built with Hotwire and TailwindCSS.",
   "main": "index.js",
   "directories": {
     "lib": "lib"
