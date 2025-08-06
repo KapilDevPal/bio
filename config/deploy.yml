@@ -2,7 +2,7 @@
 service: bio_test_app
 
 # Name of the container image.
-image: create_my_bio-user/bio_test_app
+image: create_my_bio/bio_test_app
 
 # Deploy to these servers.
 servers:
