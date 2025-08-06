@@ -14,18 +14,18 @@ ActiveAdmin.register Visit do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
   index do
     selectable_column
     id_column
     column :biodatum
     column :ip_address
+    column :visited_at
+    column :time_ago do |visit|
+      time_ago_in_words(visit.visited_at) + " ago"
+    end
     column :user_agent do |visit|
       truncate(visit.user_agent, length: 50)
-    end
-    column :visited_at
-    column "Time Ago" do |visit|
-      time_ago_in_words(visit.visited_at) + " ago"
     end
     actions
   end
@@ -37,23 +37,12 @@ ActiveAdmin.register Visit do
       row :ip_address
       row :user_agent
       row :visited_at
-      row "Time Ago" do |visit|
-        time_ago_in_words(visit.visited_at) + " ago"
-      end
+      row :created_at
+      row :updated_at
     end
   end
 
-  form do |f|
-    f.inputs do
-      f.input :biodatum
-      f.input :ip_address
-      f.input :user_agent
-      f.input :visited_at
-    end
-    f.actions
-  end
-
-  sidebar "Visit Statistics", only: :index do
+  sidebar "Global Statistics", only: :index do
     attributes_table do
       row "Total Visits" do
         Visit.count
