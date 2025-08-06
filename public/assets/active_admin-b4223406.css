@@ -1,0 +1,6 @@
+/*
+ * This file is used to ensure Active Admin CSS is properly loaded.
+ * It imports the SCSS file which contains all Active Admin styles.
+ */
+
+@import "active_admin"; 

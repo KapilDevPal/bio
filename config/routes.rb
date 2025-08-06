@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -11,6 +9,13 @@ Rails.application.routes.draw do
   # Root route
   root "biodata#index"
   
+  # Admin routes
+  namespace :admin do
+    get 'dashboard', to: 'admin#dashboard'
+    get 'biodata', to: 'admin#biodata'
+    get 'visits', to: 'admin#visits'
+  end
+
   # Biodata routes
   resources :biodata, except: [:destroy] do
     member do

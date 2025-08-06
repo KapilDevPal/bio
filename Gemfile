@@ -74,6 +74,6 @@ group :test do
   gem "capybara"
 end
 
-gem "activeadmin", "~> 3.3"
-
 gem "devise", "~> 4.9"
+
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Biodata Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+          <h1 class="text-2xl font-bold text-gray-900">Biodata Management</h1>
+          <div class="flex items-center space-x-4">
+            <span class="text-gray-600">Welcome, <%= current_user.email %></span>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium" %>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex space-x-8 py-4">
+          <%= link_to "Dashboard", admin_dashboard_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+          <%= link_to "Biodata", admin_biodata_path, class: "text-blue-600 border-b-2 border-blue-600 pb-2 px-1 text-sm font-medium" %>
+          <%= link_to "Visits", admin_visits_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+          <%= link_to "Main Site", root_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <!-- Stats -->
+      <div class="mb-6">
+        <div class="bg-white shadow rounded-lg p-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600"><%= @biodata.total_count %></div>
+              <div class="text-sm text-gray-500">Total Biodata</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-600"><%= @biodata.sum { |b| b.biodata_sections.count } %></div>
+              <div class="text-sm text-gray-500">Total Sections</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-purple-600"><%= @biodata.sum { |b| b.biodata_fields.count } %></div>
+              <div class="text-sm text-gray-500">Total Fields</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-yellow-600"><%= @biodata.sum { |b| b.total_visits } %></div>
+              <div class="text-sm text-gray-500">Total Visits</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Biodata Table -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">All Biodata Records</h3>
+          
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sections</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fields</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visits</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% @biodata.each do |biodatum| %>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <% if biodatum.photo.attached? %>
+                          <%= image_tag biodatum.photo, class: "h-10 w-10 rounded-full object-cover mr-3" %>
+                        <% else %>
+                          <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-600"></i>
+                          </div>
+                        <% end %>
+                        <div>
+                          <div class="text-sm font-medium text-gray-900"><%= biodatum.name %></div>
+                          <div class="text-sm text-gray-500"><%= truncate(biodatum.description, length: 50) if biodatum.description.present? %></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <%= biodatum.background_template.titleize %>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <%= biodatum.biodata_sections.count %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <%= biodatum.biodata_fields.count %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <%= biodatum.total_visits %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <%= biodatum.created_at.strftime("%b %d, %Y") %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div class="flex space-x-2">
+                        <%= link_to "View", biodatum_path(biodatum), target: "_blank", class: "text-blue-600 hover:text-blue-900" %>
+                        <%= link_to "Preview", preview_biodatum_path(biodatum), target: "_blank", class: "text-green-600 hover:text-green-900" %>
+                        <%= link_to "Edit", edit_biodatum_path(biodatum), class: "text-yellow-600 hover:text-yellow-900" %>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <% if @biodata.respond_to?(:current_page) %>
+            <div class="mt-6 flex items-center justify-between">
+              <div class="text-sm text-gray-700">
+                Showing <%= (@biodata.current_page - 1) * @biodata.limit_value + 1 %> to <%= [@biodata.current_page * @biodata.limit_value, @biodata.total_count].min %> of <%= @biodata.total_count %> results
+              </div>
+              <div class="flex space-x-2">
+                <% if @biodata.previous_page %>
+                  <%= link_to "Previous", admin_biodata_path(page: @biodata.previous_page), class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+                <% end %>
+                <% if @biodata.next_page %>
+                  <%= link_to "Next", admin_biodata_path(page: @biodata.next_page), class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

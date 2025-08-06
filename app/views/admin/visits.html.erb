@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Visit Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+          <h1 class="text-2xl font-bold text-gray-900">Visit Analytics</h1>
+          <div class="flex items-center space-x-4">
+            <span class="text-gray-600">Welcome, <%= current_user.email %></span>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium" %>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex space-x-8 py-4">
+          <%= link_to "Dashboard", admin_dashboard_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+          <%= link_to "Biodata", admin_biodata_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+          <%= link_to "Visits", admin_visits_path, class: "text-blue-600 border-b-2 border-blue-600 pb-2 px-1 text-sm font-medium" %>
+          <%= link_to "Main Site", root_path, class: "text-gray-500 hover:text-gray-700 px-1 text-sm font-medium" %>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <!-- Stats -->
+      <div class="mb-6">
+        <div class="bg-white shadow rounded-lg p-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600"><%= @visits.total_count %></div>
+              <div class="text-sm text-gray-500">Total Visits</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-600"><%= Visit.today.count %></div>
+              <div class="text-sm text-gray-500">Visits Today</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-purple-600"><%= Visit.this_week.count %></div>
+              <div class="text-sm text-gray-500">Visits This Week</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-yellow-600"><%= Visit.distinct.count(:ip_address) %></div>
+              <div class="text-sm text-gray-500">Unique IPs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visits Table -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">All Visit Records</h3>
+          
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Biodata</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visited At</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Ago</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Agent</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% @visits.each do |visit| %>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                          <% if visit.biodatum&.photo.attached? %>
+                            <%= image_tag visit.biodatum.photo, class: "h-10 w-10 rounded-full object-cover" %>
+                          <% else %>
+                            <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                              <i class="fas fa-user text-gray-600"></i>
+                            </div>
+                          <% end %>
+                        </div>
+                        <div class="ml-4">
+                          <div class="text-sm font-medium text-gray-900">
+                            <%= link_to visit.biodatum&.name || "Unknown", biodatum_path(visit.biodatum), target: "_blank", class: "text-blue-600 hover:text-blue-900" if visit.biodatum %>
+                          </div>
+                          <div class="text-sm text-gray-500">ID: <%= visit.biodatum&.id || "N/A" %></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <%= visit.ip_address %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <%= visit.visited_at.strftime("%b %d, %Y at %H:%M") %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <%= time_ago_in_words(visit.visited_at) %> ago
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                      <div class="max-w-xs truncate" title="<%= visit.user_agent %>">
+                        <%= truncate(visit.user_agent, length: 80) %>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <% if @visits.respond_to?(:current_page) %>
+            <div class="mt-6 flex items-center justify-between">
+              <div class="text-sm text-gray-700">
+                Showing <%= (@visits.current_page - 1) * @visits.limit_value + 1 %> to <%= [@visits.current_page * @visits.limit_value, @visits.total_count].min %> of <%= @visits.total_count %> results
+              </div>
+              <div class="flex space-x-2">
+                <% if @visits.previous_page %>
+                  <%= link_to "Previous", admin_visits_path(page: @visits.previous_page), class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+                <% end %>
+                <% if @visits.next_page %>
+                  <%= link_to "Next", admin_visits_path(page: @visits.next_page), class: "px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

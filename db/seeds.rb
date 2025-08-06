@@ -76,5 +76,5 @@ preferences_section.biodata_fields.create!([
 puts "Sample biodata created successfully!"
 puts "Visit http://localhost:3000 to see the application"
 
-# Create admin user for Active Admin
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# Create admin user for admin panel
+User.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
