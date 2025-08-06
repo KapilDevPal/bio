@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:80"
+    environment:
+      - RAILS_ENV=production
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - DATABASE_URL=sqlite3:/rails/db/production.sqlite3
+    volumes:
+      - ./storage:/rails/storage
+      - ./log:/rails/log
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=biodata_production
+      - POSTGRES_USER=biodata
+      - POSTGRES_PASSWORD=biodata_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Development service
+  web-dev:
+    build: .
+    ports:
+      - "3001:3000"
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=sqlite3:/rails/db/development.sqlite3
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+    command: ./bin/rails server -b 0.0.0.0
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
+  bundle_cache: 

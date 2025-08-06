@@ -7,7 +7,6 @@ Biodatum.destroy_all
 biodatum = Biodatum.create!(
   name: "Rahul Sharma",
   description: "A professional software engineer looking for a life partner",
-  photo: "https://via.placeholder.com/300x300/FFD700/000000?text=Rahul+Sharma",
   background_template: "watercolor-1"
 )
 
@@ -75,4 +74,7 @@ preferences_section.biodata_fields.create!([
 ])
 
 puts "Sample biodata created successfully!"
-puts "Visit http://localhost:3000 to see the application" 
+puts "Visit http://localhost:3000 to see the application"
+
+# Create admin user for Active Admin
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

@@ -17,6 +17,31 @@ class BiodataController < ApplicationController
   def create
     @biodatum = Biodatum.new(biodatum_params)
     
+    # Set default name if empty
+    @biodatum.name = "Untitled Biodata" if @biodatum.name.blank?
+    
+    # Create default sections if none provided or all are empty
+    if params[:biodatum].blank? || params[:biodatum][:biodata_sections_attributes].blank?
+      setup_default_sections
+    else
+      # Filter out empty sections and fields
+      params[:biodatum][:biodata_sections_attributes].each do |key, section_attrs|
+        # Remove empty sections
+        if section_attrs[:name].blank?
+          section_attrs[:_destroy] = '1'
+        else
+          # Filter out empty fields within sections
+          if section_attrs[:biodata_fields_attributes].present?
+            section_attrs[:biodata_fields_attributes].each do |field_key, field_attrs|
+              if field_attrs[:label].blank? && field_attrs[:value].blank?
+                field_attrs[:_destroy] = '1'
+              end
+            end
+          end
+        end
+      end
+    end
+    
     if @biodatum.save
       redirect_to @biodatum, notice: 'Biodata was successfully created.'
     else
@@ -29,6 +54,15 @@ class BiodataController < ApplicationController
     setup_default_sections
   end
 
+  def show
+    # Track the visit
+    @biodatum.visits.create!(
+      ip_address: request.remote_ip,
+      user_agent: request.user_agent,
+      visited_at: Time.current
+    )
+  end
+
   def update
     if @biodatum.update(biodatum_params)
       redirect_to @biodatum, notice: 'Biodata was successfully updated.'
@@ -39,6 +73,12 @@ class BiodataController < ApplicationController
   end
 
   def preview
+    # Track the visit
+    @biodatum.visits.create!(
+      ip_address: request.remote_ip,
+      user_agent: request.user_agent,
+      visited_at: Time.current
+    )
     # Preview the biodata with the selected template
     render layout: false
   end

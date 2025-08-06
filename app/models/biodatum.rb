@@ -1,11 +1,16 @@
 class Biodatum < ApplicationRecord
   has_many :biodata_sections, -> { order(:position) }, dependent: :destroy
   has_many :biodata_fields, through: :biodata_sections, dependent: :destroy
-  
-  validates :name, presence: true
-  validates :slug, presence: true, uniqueness: true
-  
+  has_many :visits, dependent: :destroy
+
+  # Removed validations to allow creation without data
+  # validates :name, presence: true
+  # validates :slug, presence: true, uniqueness: true
+
   before_validation :generate_slug, on: :create
+
+  # Photo upload
+  has_one_attached :photo
   
   accepts_nested_attributes_for :biodata_sections, allow_destroy: true, reject_if: :all_blank
   
@@ -57,9 +62,25 @@ class Biodatum < ApplicationRecord
       'santa-plants' => ActionController::Base.helpers.asset_path('santa-claus-plants-letter-template_23-2147964131.jpg')
     }
     
-    template_images[background_template] || template_images['watercolor-1']
+        template_images[background_template] || template_images['watercolor-1']
   end
-  
+
+  def total_visits
+    visits.count
+  end
+
+  def visits_today
+    visits.today.count
+  end
+
+  def visits_this_week
+    visits.this_week.count
+  end
+
+  def visits_this_month
+    visits.this_month.count
+  end
+
   private
   
   def generate_slug

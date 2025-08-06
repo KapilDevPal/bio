@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  biodatum: one
+  ip_address: MyString
+  user_agent: MyText
+  visited_at: 2025-08-06 07:35:05
+
+two:
+  biodatum: two
+  ip_address: MyString
+  user_agent: MyText
+  visited_at: 2025-08-06 07:35:05
